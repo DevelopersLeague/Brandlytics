@@ -4,3 +4,5 @@ dist
 *.env
 *.rest
 *.http
+*.sqlite
+*.db
