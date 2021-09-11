@@ -1,0 +1,7 @@
+{
+  "defaultEnv": { "ENV": "NODE_ENV" },
+  "developement": {
+    "driver": "sqlite3",
+    "filename": { "ENV": "DEV_SQLITE_FILENAME" }
+  }
+}
