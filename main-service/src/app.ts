@@ -37,6 +37,7 @@ export class App {
 
     // error handlers
     this.expressApp.use(
+      // eslint-disable-next-line
       (err: ICustomError, req: Request, res: Response, next: NextFunction) => {
         console.log(err);
         let code: number;
