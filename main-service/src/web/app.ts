@@ -1,4 +1,5 @@
 import { NextFunction, Router } from 'express';
+import { IApiError } from '../domain/interfaces';
 import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -7,10 +8,6 @@ import morgan from 'morgan';
 export interface IBaseController {
   path: string;
   getRouter: () => Router;
-}
-
-export interface ICustomError extends Error {
-  statusCode: number;
 }
 
 export class App {
@@ -38,7 +35,7 @@ export class App {
     // error handlers
     this.expressApp.use(
       // eslint-disable-next-line
-      (err: ICustomError, req: Request, res: Response, next: NextFunction) => {
+      (err: IApiError, req: Request, res: Response, next: NextFunction) => {
         console.log(err);
         let code: number;
         let message: string;
