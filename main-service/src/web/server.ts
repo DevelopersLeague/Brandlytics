@@ -1,8 +1,11 @@
-import { App } from "./App";
+import { App } from './App';
+import { ConfigService } from './ConfigService';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const PORT = 8080;
+const cs = new ConfigService();
+
+const PORT = Number(cs.get('PORT'));
 
 const app = new App([]);
 
