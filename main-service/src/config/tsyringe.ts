@@ -1,6 +1,8 @@
 import { container, instanceCachingFactory } from 'tsyringe';
-import { configServiceInstance, ConfigService } from './ConfigService';
+import { ConfigService } from '../domain/services/ConfigService';
+import { configServiceInstance } from './configservice';
 import { Logger } from '../web/Logger';
+import { loggerInstance } from './logger';
 
 // config service
 container.register<ConfigService>('configService', {
@@ -9,8 +11,5 @@ container.register<ConfigService>('configService', {
 
 // logger
 container.register<Logger>('logger', {
-  useFactory: instanceCachingFactory<Logger>((c) => {
-    const cs = c.resolve<ConfigService>('configService');
-    return new Logger(cs.get('NODE_ENV') == 'development' ? 'debug' : 'info');
-  }),
+  useValue: loggerInstance,
 });

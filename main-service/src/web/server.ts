@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import '../config/tsyringe';
 import dotenv from 'dotenv';
 dotenv.config();
+import '../config/tsyringe';
 
 import { App } from './App';
-import { ConfigService } from '../config/ConfigService';
+import { ConfigService } from '../domain/services/ConfigService';
 import { Logger, makeConsoleStrategy, makeFileStrategy } from './Logger';
 import { container } from 'tsyringe';
 
