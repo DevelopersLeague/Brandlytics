@@ -35,7 +35,9 @@
     "helmet": "^4.6.0",
     "http-errors": "^1.8.0",
     "morgan": "^1.10.0",
+    "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2",
+    "tsyringe": "^4.6.0",
     "yup": "^0.32.9"
   }
 }

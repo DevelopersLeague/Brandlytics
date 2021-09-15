@@ -1,4 +1,5 @@
 import { IConfigService } from '../domain/interfaces';
+import path from 'path';
 
 export class ConfigService implements IConfigService {
   private map: { [key: string]: string };
@@ -20,3 +21,7 @@ export class ConfigService implements IConfigService {
     }
   }
 }
+
+export const configServiceInstance = new ConfigService({
+  rootdir: path.join(__dirname, '..', '..'),
+});

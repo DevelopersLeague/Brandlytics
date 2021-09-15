@@ -1,6 +1,7 @@
 import { ILogger, LogLevel } from '../domain/interfaces';
 import * as fsp from 'fs/promises';
 import * as fs from 'fs';
+import { injectable, singleton } from 'tsyringe';
 
 const logLevelMap = {
   debug: 0,

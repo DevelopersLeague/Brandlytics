@@ -1,19 +1,18 @@
-import { App } from './App';
-import { ConfigService } from './ConfigService';
-import { Logger, makeConsoleStrategy, makeFileStrategy } from './Logger';
+import 'reflect-metadata';
+import '../config/tsyringe';
 import dotenv from 'dotenv';
-import path from 'path';
 dotenv.config();
 
-const cs = new ConfigService({
-  rootdir: path.join(__dirname, '..', '..'),
-});
+import { App } from './App';
+import { ConfigService } from '../config/ConfigService';
+import { Logger, makeConsoleStrategy, makeFileStrategy } from './Logger';
+import { container } from 'tsyringe';
 
-const logger = new Logger('info');
+const cs = container.resolve<ConfigService>('configService');
+
+const logger = container.resolve<Logger>('logger');
+
 logger.addStrategy(makeConsoleStrategy());
-// logger.addStrategy(
-//   makeFileStrategy(path.join(cs.get('rootdir'), 'general.json.log'))
-// );
 
 const PORT = Number(cs.get('PORT'));
 
@@ -21,4 +20,5 @@ const app = new App([]);
 
 app.expressApp.listen(PORT, () => {
   logger.info(`server started on port: ${PORT}`);
+  logger.debug(`server started on port: ${PORT}`);
 });
