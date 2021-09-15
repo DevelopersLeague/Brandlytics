@@ -5,7 +5,7 @@ import '../config/tsyringe';
 
 import { App } from './App';
 import { ConfigService } from '../domain/services/ConfigService';
-import { Logger, makeConsoleStrategy, makeFileStrategy } from './Logger';
+import { Logger, makeConsoleStrategy } from './Logger';
 import { container } from 'tsyringe';
 
 const cs = container.resolve<ConfigService>('configService');

@@ -1,4 +1,4 @@
-import { container, instanceCachingFactory } from 'tsyringe';
+import { container } from 'tsyringe';
 import { ConfigService } from '../domain/services/ConfigService';
 import { configServiceInstance } from './configservice';
 import { Logger } from '../web/Logger';

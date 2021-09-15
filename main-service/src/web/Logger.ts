@@ -12,6 +12,7 @@ type LogInfo = {
   message: string;
   logLevel: LogLevel;
   timeStamp: Date;
+  //eslint-disable-next-line
   logObj?: any;
 };
 
@@ -32,6 +33,7 @@ export class Logger implements ILogger {
   public async log(
     logLevel: LogLevel,
     message: string,
+  //eslint-disable-next-line
     logObj?: any
   ): Promise<void> {
     const timeStamp = new Date();
@@ -42,18 +44,22 @@ export class Logger implements ILogger {
     }
   }
 
+  //eslint-disable-next-line
   public async debug(message: string, logObj?: any): Promise<void> {
     await this.log('debug', message, logObj);
   }
 
+  //eslint-disable-next-line
   public async info(message: string, logObj?: any): Promise<void> {
     await this.log('info', message, logObj);
   }
 
+  //eslint-disable-next-line
   public async warning(message: string, logObj?: any): Promise<void> {
     await this.log('warning', message, logObj);
   }
 
+  //eslint-disable-next-line
   public async error(message: string, logObj?: any): Promise<void> {
     await this.log('error', message, logObj);
   }

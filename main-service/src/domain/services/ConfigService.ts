@@ -12,6 +12,7 @@ export class ConfigService implements IConfigService {
 
   get(key: string): string {
     if (process.env[key] !== undefined) {
+      //eslint-disable-next-line
       return process.env[key]!;
     } else if (this.map[key] !== undefined) {
       return this.map[key];
