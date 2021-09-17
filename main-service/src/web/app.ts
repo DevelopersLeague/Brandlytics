@@ -32,8 +32,7 @@ export class App {
     );
     this.expressApp.use(helmet());
     this.expressApp.get('/health', (req: Request, res: Response) => {
-      throw new Error('test error');
-      // res.json({ status: 'healthy' });
+      res.json({ status: 'healthy' });
     });
 
     // register controllers
