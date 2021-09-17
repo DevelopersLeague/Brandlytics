@@ -1,9 +1,10 @@
 import { NextFunction, Router } from 'express';
-import { IApiError, ILogger } from '../domain/interfaces';
+import { IAPIError, ILogger } from '../domain/interfaces';
 import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { reqLoggingMiddleware } from './middleware';
+import { APIError } from './ApiError';
 
 export interface IBaseController {
   path: string;
@@ -43,7 +44,7 @@ export class App {
     // error handlers
     this.expressApp.use(
       // eslint-disable-next-line
-      (err: IApiError, req: Request, res: Response, next: NextFunction) => {
+      (err: IAPIError, req: Request, res: Response, next: NextFunction) => {
         errorLogger.error(err.message, { stack: err.stack });
         if (process.env.NODE_ENV == 'development') {
           console.log(err);

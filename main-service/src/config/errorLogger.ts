@@ -1,7 +1,11 @@
 import { Logger } from '../web/Logger';
 import { makeFileStrategy, makeConsoleStrategy } from '../web/Logger';
 
-export const errLoggerInstance = new Logger("error");
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
-errLoggerInstance.addStrategy(makeFileStrategy("logs/error.json.log"));
+export const errLoggerInstance = new Logger('error');
+
 errLoggerInstance.addStrategy(makeConsoleStrategy());
+if (NODE_ENV == 'production') {
+  errLoggerInstance.addStrategy(makeFileStrategy('logs/error.json.log'));
+}

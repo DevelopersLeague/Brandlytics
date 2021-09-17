@@ -8,4 +8,6 @@ export const loggerInstance = new Logger(
 );
 
 loggerInstance.addStrategy(makeConsoleStrategy());
-loggerInstance.addStrategy(makeFileStrategy("logs/general.json.log"));
+if (NODE_ENV == 'production') {
+  loggerInstance.addStrategy(makeFileStrategy('logs/general.json.log'));
+}

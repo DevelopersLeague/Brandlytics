@@ -1,4 +1,4 @@
-export interface IApiError extends Error {
+export interface IAPIError extends Error {
   statusCode: number;
 }
 
