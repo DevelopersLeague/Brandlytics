@@ -4,6 +4,7 @@ import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { reqLoggingMiddleware } from './middleware';
+import { APIError } from '../domain/utils';
 
 export interface IBaseController {
   path: string;
@@ -32,6 +33,7 @@ export class App {
     );
     this.expressApp.use(helmet());
     this.expressApp.get('/health', (req: Request, res: Response) => {
+      // throw APIError.forbidden('not allowed');
       res.json({ status: 'healthy' });
     });
 
