@@ -4,7 +4,6 @@ import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { reqLoggingMiddleware } from './middleware';
-import { APIError } from './ApiError';
 
 export interface IBaseController {
   path: string;

@@ -1,7 +1,8 @@
-import { IAPIError } from '../domain/interfaces';
+import { IAPIError } from '../interfaces';
 
 export class APIError extends Error implements IAPIError {
   public statusCode: number;
+
   constructor(msg: string, statusCode: number) {
     super(msg);
     this.statusCode = statusCode;
