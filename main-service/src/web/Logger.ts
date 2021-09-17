@@ -33,7 +33,7 @@ export class Logger implements ILogger {
   public async log(
     logLevel: LogLevel,
     message: string,
-  //eslint-disable-next-line
+    //eslint-disable-next-line
     logObj?: any
   ): Promise<void> {
     const timeStamp = new Date();
@@ -68,7 +68,7 @@ export class Logger implements ILogger {
 export function makeFileStrategy(filePath: string): Strategy {
   return async function (logInfo: LogInfo) {
     const logItem = {
-      message: logInfo.message,
+      msg: logInfo.message,
       level: logInfo.logLevel,
       timestamp: logInfo.timeStamp.toISOString(),
       ...logInfo.logObj,
@@ -89,7 +89,7 @@ export function makeConsoleStrategy(): Strategy {
     process.stdout.write(
       `${levelColorMap[logInfo.logLevel]}${logInfo.logLevel}\t${
         levelColorMap['default']
-      }${logInfo.message}\t${logInfo.timeStamp.toISOString()}\n`,
+      }${logInfo.message}\n`,
       'utf-8'
     );
   };

@@ -1,15 +1,26 @@
 import { container } from 'tsyringe';
-import { ConfigService } from '../domain/services/ConfigService';
+import { ILogger, IConfigService } from '../domain/interfaces';
 import { configServiceInstance } from './configservice';
-import { Logger } from '../web/Logger';
 import { loggerInstance } from './logger';
+import {errLoggerInstance} from './errorLogger'
+import {reqLoggerInstance} from './reqLogger'
 
 // config service
-container.register<ConfigService>('configService', {
+container.register<IConfigService>('configService', {
   useValue: configServiceInstance,
 });
 
 // logger
-container.register<Logger>('logger', {
+container.register<ILogger>('logger', {
   useValue: loggerInstance,
+});
+
+// logger
+container.register<ILogger>('error_logger', {
+  useValue: errLoggerInstance,
+});
+
+// logger
+container.register<ILogger>('req_logger', {
+  useValue: reqLoggerInstance,
 });
