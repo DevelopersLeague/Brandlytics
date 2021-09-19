@@ -1,7 +1,7 @@
 // config
 import 'reflect-metadata';
 import { loadEnv } from '../config/env';
-loadEnv('.env');
+loadEnv('.env.json');
 import '../config/tsyringe';
 
 // setup

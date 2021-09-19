@@ -8,9 +8,11 @@ export function loadEnv(filename: string): void {
     throw new Error(`file ${filePath} does not exists`);
   }
   const fileContent = fs.readFileSync(filePath).toString();
-  const tokens = fileContent.split('\r\n');
-  tokens.forEach((token) => {
-    const [key, value] = token.split('=');
-    process.env[key] = value;
+  const fileJson = JSON.parse(fileContent);
+  Object.keys(fileJson).forEach((key) => {
+    if (typeof fileJson[key] != "string") {
+      throw new Error('value for each key must be a string in env json files');
+    }
+    process.env[key] = fileJson[key];
   });
 }

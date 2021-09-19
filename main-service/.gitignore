@@ -7,3 +7,4 @@ dist
 *.sqlite
 *.db
 *.log
+.env.json
