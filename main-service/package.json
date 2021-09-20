@@ -8,7 +8,7 @@
     "prestart": "npm run build",
     "build": "tsc",
     "dev": "nodemon src/web/server.ts",
-    "migrate": "db-migrate up -e development -m ./src/database/migrations --config ./database.json"
+    "migrate": "knex migrate:latest --knexfile ./src/database/knexfile"
   },
   "keywords": [],
   "author": "",
