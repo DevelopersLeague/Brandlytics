@@ -1,10 +1,12 @@
+import { loadEnv } from "../config/env";
+
 // Update with your config settings.
+loadEnv('.env.json');
 
 const config = {
   development: {
-    client: 'postgresql',
-    connection:
-      'postgres://jrancgdllfsrxr:1ac49ca99e7c8f0e69d1bd558aa09ac306c87c435dba9ff2576dea4071f6c4cf@ec2-52-45-73-150.compute-1.amazonaws.com:5432/dej613uj569bko',
+    client: process.env.DB_CLIENT,
+    connection: process.env.DB_URL,
     pool: {
       min: 2,
       max: 10,
