@@ -26,32 +26,41 @@ export interface IRepository<T> {
 
 export interface IUser {
   id: number;
-  name: string;
+  firstname: string;
+  lastname: string;
   username: string;
   password: string;
   isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IQuery {
   id: number;
-  name: string;
-  query: string;
+  text: string;
   userId: number;
   categoryId: number;
   isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ICategory {
   id: number;
   name: string;
+  userId: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IUserRepository extends IRepository<IUser> {
   findByUsername: (username: string) => Promise<IUser>;
 }
 
-// eslint-disable-next-line
-export interface IQueryRepository extends IRepository<IQuery> {}
+export interface IQueryRepository extends IRepository<IQuery> {
+  findByUserId: (userid: number) => Promise<IQuery[]>;
+}
 
-//eslint-disable-next-line
-export interface IQueryRepository extends IRepository<IQuery> {}
+export interface ICategoryRepository extends IRepository<ICategory> {
+  findByUserId: (userid: number) => Promise<IQuery[]>;
+}

@@ -5,6 +5,7 @@ dist
 *.rest
 *.http
 *.sqlite
+*.sqlite3
 *.db
 *.log
 .env.json
