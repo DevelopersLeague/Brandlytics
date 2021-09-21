@@ -1,5 +1,3 @@
-import { SupportOptionRange } from 'prettier';
-
 export interface IAPIError extends Error {
   statusCode: number;
 }
@@ -11,11 +9,13 @@ export interface IConfigService {
 export type LogLevel = 'debug' | 'info' | 'warning' | 'error';
 
 export interface ILogger {
+  /* eslint-disable */
   log: (logLevel: LogLevel, message: string, logObj?: any) => Promise<void>;
   debug: (message: string, logObj?: any) => Promise<void>;
   info: (message: string, logObj?: any) => Promise<void>;
   warning: (message: string, logObj?: any) => Promise<void>;
   error: (message: string, logObj?: any) => Promise<void>;
+  /* eslint-enable */
 }
 
 export interface IUser {
