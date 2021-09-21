@@ -8,7 +8,8 @@ export async function up(knex: Knex): Promise<void> {
     table.string('username').notNullable().unique();
     table.boolean('is_deleted').notNullable().defaultTo(false);
     table.string('password').notNullable();
-    table.timestamps(true, true);
+    table.bigInteger('created_at').notNullable();
+    table.bigInteger('updated_at').notNullable();
   });
 }
 
