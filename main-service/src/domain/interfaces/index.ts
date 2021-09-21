@@ -1,3 +1,5 @@
+import { SupportOptionRange } from 'prettier';
+
 export interface IAPIError extends Error {
   statusCode: number;
 }
@@ -14,14 +16,6 @@ export interface ILogger {
   info: (message: string, logObj?: any) => Promise<void>;
   warning: (message: string, logObj?: any) => Promise<void>;
   error: (message: string, logObj?: any) => Promise<void>;
-}
-
-export interface IRepository<T> {
-  create: () => Promise<T>;
-  save: (entity: T) => Promise<T>;
-  findAll: () => Promise<T[]>;
-  findOneById: (id: number) => Promise<T>;
-  delete: (id: number) => Promise<T>;
 }
 
 export interface IUser {
@@ -53,8 +47,21 @@ export interface ICategory {
   updatedAt: Date;
 }
 
+export interface IRepository<T> {
+  save: (entity: T) => Promise<T>;
+  findAll: () => Promise<T[]>;
+  findOneById: (id: number) => Promise<T | null>;
+  delete: (id: number) => Promise<T | null>;
+}
+
 export interface IUserRepository extends IRepository<IUser> {
-  findByUsername: (username: string) => Promise<IUser>;
+  create: (createDto: {
+    firstname: string;
+    lastname: string;
+    username: string;
+    password: string;
+  }) => Promise<IUser>;
+  findOneByUsername: (username: string) => Promise<IUser | null>;
 }
 
 export interface IQueryRepository extends IRepository<IQuery> {
