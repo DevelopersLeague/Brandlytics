@@ -1,14 +1,22 @@
-import { loadEnv } from '../config/env';
-// Update with your config settings.
-loadEnv('.env.json');
+import path from 'path';
 
-const config = {
+const config: { [key: string]: any } = {
   development: {
     client: process.env.DB_CLIENT,
     connection: process.env.DB_URL,
     migrations: {
       tableName: 'knex_migrations',
-      directory: './migrations',
+      directory: path.join(__dirname, 'migrations'),
+    },
+    useNullAsDefault: true,
+  },
+
+  test: {
+    client: 'sqlite3',
+    connection: ':memory:',
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: path.join(__dirname, 'migrations'),
     },
     useNullAsDefault: true,
   },

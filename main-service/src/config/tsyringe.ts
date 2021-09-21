@@ -1,13 +1,20 @@
 import { container } from 'tsyringe';
 import { ILogger, IConfigService } from '../domain/interfaces';
-import { configServiceInstance } from './configservice';
+import { configServiceInstance } from './configService';
 import { loggerInstance } from './logger';
-import {errLoggerInstance} from './errorLogger'
-import {reqLoggerInstance} from './reqLogger'
+import { errLoggerInstance } from './errorLogger';
+import { reqLoggerInstance } from './reqLogger';
+import { knexInstance } from './knex';
+import { Knex } from 'knex';
 
 // config service
 container.register<IConfigService>('configService', {
   useValue: configServiceInstance,
+});
+
+//knex
+container.register<Knex>('knex', {
+  useValue: knexInstance,
 });
 
 // logger
