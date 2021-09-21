@@ -1,5 +1,4 @@
-import { loadEnv } from "../config/env";
-
+import { loadEnv } from '../config/env';
 // Update with your config settings.
 loadEnv('.env.json');
 
@@ -7,14 +6,11 @@ const config = {
   development: {
     client: process.env.DB_CLIENT,
     connection: process.env.DB_URL,
-    pool: {
-      min: 2,
-      max: 10,
-    },
     migrations: {
       tableName: 'knex_migrations',
       directory: './migrations',
     },
+    useNullAsDefault: true,
   },
 
   staging: {
