@@ -1,6 +1,6 @@
 import { IUserRepository, IUser } from '../../domain/interfaces';
 import { Knex } from 'knex';
-import { injectable, singleton, inject, injectAll } from 'tsyringe';
+import { injectable, singleton, inject } from 'tsyringe';
 
 @injectable()
 @singleton()
@@ -9,45 +9,6 @@ export class UserRepository implements IUserRepository {
     @inject('knex')
     private readonly knex: Knex
   ) {}
-
-  public async findOneByUsername(username: string): Promise<IUser | null> {
-    const users = await this.knex('users').where({
-      username: username,
-      is_deleted: false,
-    });
-    if (users.length === 0) {
-      return null;
-    }
-    return this.mapRowToUser(users[0]);
-  }
-
-  public async findOneById(id: number): Promise<IUser | null> {
-    const users = await this.knex('users').where({ id: id, is_deleted: false });
-    if (users.length === 0) {
-      return null;
-    }
-    return this.mapRowToUser(users[0]);
-  }
-
-  public async save(user: IUser): Promise<IUser> {
-    return {} as IUser;
-  }
-
-  public async findAll(): Promise<IUser[]> {
-    return [] as IUser[];
-  }
-
-  public async delete(id: number): Promise<IUser | null> {
-    const ids = await this.knex('users')
-      .where({ id: id })
-      .update({ is_deleted: true })
-      .returning('id');
-    if (ids.length == 0) {
-      return null;
-    }
-    const users = await this.knex('users').where({ id: id });
-    return this.mapRowToUser(users[0]);
-  }
 
   public async create(createDto: {
     firstname: string;
@@ -65,6 +26,54 @@ export class UserRepository implements IUserRepository {
     return this.mapRowToUser(users[0]);
   }
 
+  public async findOneById(id: number): Promise<IUser | null> {
+    const users = await this.knex('users').where({ id: id, is_deleted: false });
+    if (users.length === 0) {
+      return null;
+    }
+    return this.mapRowToUser(users[0]);
+  }
+
+  public async findOneByUsername(username: string): Promise<IUser | null> {
+    const users = await this.knex('users').where({
+      username: username,
+      is_deleted: false,
+    });
+    if (users.length === 0) {
+      return null;
+    }
+    return this.mapRowToUser(users[0]);
+  }
+
+  public async findAll(): Promise<IUser[]> {
+    const users = await this.knex('users').where({ is_deleted: false });
+    return users.map((row) => this.mapRowToUser(row));
+  }
+
+  public async save(user: IUser): Promise<IUser> {
+    await this.knex('users').where({ id: user.id }).update({
+      firstname: user.firstname,
+      lastname: user.lastname,
+      username: user.username,
+      password: user.password,
+      updated_at: Date.now(),
+      is_deleted: user.isDeleted,
+    });
+    const users = await this.knex('users').where({ id: user.id });
+    return this.mapRowToUser(users[0]);
+  }
+
+  public async delete(id: number): Promise<IUser | null> {
+    const users = await this.knex('users').where({ id: id, is_deleted: false });
+    if (users.length === 0) {
+      return null;
+    }
+    await this.knex('users').where({ id: id }).update({ is_deleted: true });
+    const updateUsers = await this.knex('users').where({ id: id });
+    return this.mapRowToUser(updateUsers[0]);
+  }
+
+  // eslint-disable-next-line
   private mapRowToUser(row: any): IUser {
     return {
       id: row.id,
