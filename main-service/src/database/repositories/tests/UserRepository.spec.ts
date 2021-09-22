@@ -1,7 +1,7 @@
 import 'reflect-metadata';
-import { knexInstance } from '../../config/knex';
-import { IUser } from '../../domain/interfaces';
-import { UserRepository } from './UserRepository';
+import { knexInstance } from '../../../config/knex';
+import { IUser } from '../../../domain/interfaces';
+import { UserRepository } from '../UserRepository';
 
 function getRandomString(length: number) {
   const randomChars =
