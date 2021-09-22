@@ -1,3 +1,4 @@
+import knex from 'knex';
 import 'reflect-metadata';
 import { knexInstance } from '../../config/knex';
 import { IUser } from '../../domain/interfaces';
@@ -13,6 +14,14 @@ function getRandomString(length: number) {
     );
   }
   return result;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      return resolve();
+    }, ms);
+  });
 }
 
 describe('UserRepository', () => {
@@ -167,6 +176,7 @@ describe('UserRepository', () => {
     beforeAll(async () => {
       const username1 = getRandomString(10);
       const username2 = getRandomString(10);
+      const username3 = getRandomString(10);
 
       const localIds1 = await knexInstance('users').insert({
         firstname: 'aniket1',
@@ -186,8 +196,18 @@ describe('UserRepository', () => {
         created_at: Date.now(),
         updated_at: Date.now(),
       });
+
+      const localIds3 = await knexInstance('users').insert({
+        firstname: 'aniket1',
+        lastname: 'more',
+        username: username3,
+        password: 'password',
+        created_at: Date.now(),
+        updated_at: Date.now(),
+      });
       ids.push(localIds1[0]);
       ids.push(localIds2[0]);
+      ids.push(localIds3[0]);
     });
 
     afterAll(async () => {
@@ -214,6 +234,15 @@ describe('UserRepository', () => {
       const user = await userRepo.delete(ids[1]);
       expect(user).toBe(null);
     });
+
+    it('should update updatedAt after deleting', async () => {
+      const oldUsers = await knexInstance('users').where({ id: ids[2] });
+      const user = await userRepo.delete(ids[2]);
+      expect(user).not.toBe(null);
+      if (user) {
+        expect(user.updatedAt > new Date(oldUsers[0].updated_at));
+      }
+    });
   });
 
   describe('findAll', () => {
@@ -233,7 +262,7 @@ describe('UserRepository', () => {
         created_at: Date.now(),
         updated_at: Date.now(),
       });
-
+      await sleep(250);
       const localIds2 = await knexInstance('users').insert({
         firstname: 'aniket2',
         lastname: 'more',
@@ -274,6 +303,12 @@ describe('UserRepository', () => {
       const users = await userRepo.findAll();
       const userids = users.map((user) => user.id);
       expect(userids.includes(ids[2])).toBe(false);
+    });
+
+    it('should user by updatedAt descending', async () => {
+      const users = await userRepo.findAll();
+      const userids = users.map((user) => user.id);
+      expect(userids.indexOf(ids[0]) > userids.indexOf(ids[1])).toBe(true);
     });
   });
 

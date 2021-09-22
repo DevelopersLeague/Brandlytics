@@ -16,7 +16,7 @@ export class UserRepository implements IUserRepository {
     username: string;
     password: string;
   }): Promise<IUser> {
-    const ts = new Date().getTime();
+    const ts = Date.now();
     const result = await this.knex('users').insert({
       ...createDto,
       created_at: ts,
@@ -46,7 +46,9 @@ export class UserRepository implements IUserRepository {
   }
 
   public async findAll(): Promise<IUser[]> {
-    const users = await this.knex('users').where({ is_deleted: false });
+    const users = await this.knex('users')
+      .where({ is_deleted: false })
+      .orderBy('updated_at', 'desc');
     return users.map((row) => this.mapRowToUser(row));
   }
 
@@ -68,7 +70,9 @@ export class UserRepository implements IUserRepository {
     if (users.length === 0) {
       return null;
     }
-    await this.knex('users').where({ id: id }).update({ is_deleted: true });
+    await this.knex('users')
+      .where({ id: id })
+      .update({ is_deleted: true, updated_at: Date.now() });
     const updateUsers = await this.knex('users').where({ id: id });
     return this.mapRowToUser(updateUsers[0]);
   }
