@@ -19,4 +19,8 @@ export class APIError extends Error implements IAPIError {
   public static forbidden(msg: string): APIError {
     return new APIError(msg, 403);
   }
+
+  public static notFound(msg: string): APIError {
+    return new APIError(msg, 404);
+  }
 }
