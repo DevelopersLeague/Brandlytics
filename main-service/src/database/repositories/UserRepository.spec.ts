@@ -1,4 +1,3 @@
-import knex from 'knex';
 import 'reflect-metadata';
 import { knexInstance } from '../../config/knex';
 import { IUser } from '../../domain/interfaces';
@@ -17,6 +16,7 @@ function getRandomString(length: number) {
 }
 
 function sleep(ms: number): Promise<void> {
+  //eslint-disable-next-line
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       return resolve();
