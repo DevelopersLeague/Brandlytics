@@ -10,8 +10,7 @@
     "test": "jest --detectOpenHandles",
     "migrate:up": "ts-node ./src/scripts/migrate.ts up",
     "migrate:down": "ts-node ./src/scripts/migrate.ts down",
-    "prestart": "npm run build && npm run migrate:up",
-    "predev": "npm run migrate:up"
+    "prestart": "npm run build"
   },
   "keywords": [],
   "author": "",
