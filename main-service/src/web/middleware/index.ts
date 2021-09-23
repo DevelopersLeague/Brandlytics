@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction, Handler } from 'express';
 import { AnyObjectSchema, ValidationError } from 'yup';
 import * as jwt from 'jsonwebtoken';
-import { container } from 'tsyringe';
-import { IConfigService } from '../../domain/interfaces';
-
-const configService = container.resolve<IConfigService>('config_service');
 
 export function reqLoggingMiddleware(
   logMethod: (...args: any) => any
@@ -93,11 +89,11 @@ export function auth(): Handler {
       });
     }
 
+    if (!process.env['SECRET_KEY']) {
+      throw new Error('no env variable SECRET_KEY');
+    }
     try {
-      const tokenDecoded = jwt.verify(
-        splits[1],
-        configService.get('SECRET_KEY')
-      ) as any;
+      const tokenDecoded = jwt.verify(splits[1], process.env.SECRET_KEY) as any;
       req.user = {
         id: tokenDecoded.sub,
         firstname: tokenDecoded.firstname,

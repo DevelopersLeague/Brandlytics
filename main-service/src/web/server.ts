@@ -3,6 +3,8 @@ import 'reflect-metadata';
 import { loadEnv } from '../config/env';
 loadEnv('.env.json');
 import '../config/tsyringe';
+// import { configServiceInstance as cs } from '../config/configService';
+// import { loggerInstance as logger } from '../config/logger';
 
 // setup
 import { App, IBaseController } from './App';

@@ -1,7 +1,5 @@
 import * as yup from 'yup';
 
-console.log(yup);
-
 export const usernameSchema = yup
   .string()
   .max(20, 'usename cannot be more than 20 characters long');

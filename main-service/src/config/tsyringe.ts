@@ -16,7 +16,6 @@ import { UserService } from '../domain/services';
 import { IBaseController } from '../web/App';
 import { AuthController } from '../web/controllers/AuthController';
 
-console.log('config service init');
 // config service
 container.register<IConfigService>('config_service', {
   useValue: configServiceInstance,

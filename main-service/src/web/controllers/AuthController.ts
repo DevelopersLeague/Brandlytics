@@ -3,9 +3,11 @@ import { IBaseController } from '../App';
 import * as schemas from '../../domain/schemas';
 import * as yup from 'yup';
 import { validate } from '../middleware';
-import { inject } from 'tsyringe';
+import { inject, injectable, singleton } from 'tsyringe';
 import { IUserService } from '../../domain/interfaces';
 
+@injectable()
+@singleton()
 export class AuthController implements IBaseController {
   constructor(
     @inject('user_service')
