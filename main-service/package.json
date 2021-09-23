@@ -7,7 +7,7 @@
     "start": "node dist/web/server.js",
     "build": "tsc",
     "dev": "nodemon src/web/server.ts",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "migrate:up": "ts-node ./src/scripts/migrate.ts up",
     "migrate:down": "ts-node ./src/scripts/migrate.ts down",
     "prestart": "npm run build && npm run migrate:up",
