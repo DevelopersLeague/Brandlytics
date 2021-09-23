@@ -1,3 +1,4 @@
+/*
 import 'reflect-metadata';
 import { UserService } from '../index';
 import { IUser, IUserRepository, IUserService } from '../../interfaces';
@@ -41,3 +42,4 @@ const makeUser = ({
 };
 
 // describe('UserService', () => {});
+*/
