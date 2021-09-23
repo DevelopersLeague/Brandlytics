@@ -33,6 +33,7 @@ describe('UserRepository', () => {
 
   afterAll(async () => {
     await knexInstance.migrate.down();
+    await knexInstance.destroy();
   });
 
   describe('create', () => {
