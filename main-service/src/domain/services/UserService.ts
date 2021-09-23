@@ -1,13 +1,5 @@
-import {
-  IUser,
-  IUserSignupDTO,
-  IUserLoginDTO,
-  IUserRepository,
-  IUserService,
-  IUserUpdateDTO,
-} from '../interfaces';
+import { IUserRepository, IUserService } from '../interfaces';
 import { injectable, singleton, inject } from 'tsyringe';
-import { APIError } from '../utils';
 
 @injectable()
 @singleton()
