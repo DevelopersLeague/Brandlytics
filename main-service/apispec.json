@@ -1,0 +1,179 @@
+{
+  "name": "brandlytics api",
+  "version": "1.0.0",
+  "paths": [
+    {
+      "url": "/api/v1/auth/signup",
+      "method": "POST",
+      "tags": ["auth"],
+      "accepts": ["json"],
+      "request_body_example": {
+        "firstname": "john",
+        "lastname": "smith",
+        "username": "john_smith",
+        "password": "pass#ord"
+      },
+      "response_body_example": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+    },
+    {
+      "url": "/api/v1/auth/login",
+      "method": "POST",
+      "tags": ["auth"],
+      "accepts": ["json"],
+      "request_body_example": {
+        "username": "john_smith",
+        "password": "pass#ord"
+      },
+      "response_body_example": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+      }
+    },
+    {
+      "url": "/api/v1/analysis",
+      "method": "GET",
+      "tags": ["tweets"],
+      "authentication": "bearer_token",
+      "query_params": {
+        "query": {
+          "example": "#football",
+          "required": true,
+          "description": "the end date for range of dates to fetch tweets from"
+        },
+        "enddate": {
+          "example": "2020-02-02",
+          "required": false,
+          "default": "today",
+          "description": "the end date for range of dates to fetch tweets from"
+        },
+        "startdate": {
+          "example": "2020-02-02",
+          "required": false,
+          "default": "one week back",
+          "description": "the start date for range of dates to fetch tweets from. cannot be more than one week"
+        }
+      },
+      "response_body_example": {
+        "analysis": [
+          {
+            "date": "2020-02-02",
+            "positive_percentage": 20,
+            "negative_percentage": 80
+          },
+          {
+            "date": "2020-02-03",
+            "positive_percentage": 25,
+            "negative_percentage": 75
+          }
+        ],
+        "example_tweets": {
+          "positive": [
+            {
+              "id": 123,
+              "text": "some positive tweet",
+              "date": "2020-02-02"
+            },
+            {
+              "id": 123,
+              "text": "some positive tweet",
+              "date": "2020-02-02"
+            }
+          ],
+          "negative": [
+            {
+              "id": 123,
+              "text": "some positive tweet",
+              "date": "2020-02-02"
+            },
+            {
+              "id": 123,
+              "text": "some positive tweet",
+              "date": "2020-02-02"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "url": "/api/v1/savedqueries",
+      "method": "POST",
+      "accepts": ["json"],
+      "authentication": "bearer_token",
+      "tags": ["savedqueries"],
+      "request_body_example": {
+        "query": "#football",
+        "category": "general"
+      },
+      "response_body_example": {
+        "id": 123,
+        "query": "#football",
+        "category": "general"
+      }
+    },
+    {
+      "url": "/api/v1/savedqueries",
+      "method": "GET",
+      "accepts": ["json"],
+      "authentication": "bearer_token",
+      "tags": ["savedqueries"],
+      "query_params": {
+        "category": {
+          "required": false,
+          "example": "general"
+        }
+      },
+      "response_body_example": {
+        "queries": [
+          {
+            "id": 123,
+            "query": "#football",
+            "category": "general"
+          },
+          {
+            "id": 124,
+            "query": "#namo",
+            "category": "politics"
+          }
+        ]
+      }
+    },
+    {
+      "url": "/api/v1/savedqueries/{id}",
+      "method": "DELETE",
+      "accepts": ["json"],
+      "authentication": "bearer_token",
+      "tags": ["savedqueries"],
+      "response_body_example": {
+        "id": 123,
+        "query": "#football",
+        "category": "general"
+      }
+    },
+    {
+      "url": "/api/v1/categories",
+      "accepts": ["json"],
+      "authentication": "bearer_token",
+      "method": "GET",
+      "tags": ["categories"],
+      "response_body_example": {
+        "categories": [
+          {
+            "id": 123,
+            "category": "general"
+          },
+          {
+            "id": 124,
+            "category": "politics"
+          }
+        ]
+      }
+    }
+  ],
+  "components": {
+    "api_error_example": {
+      "code": 404,
+      "message": "user not found"
+    }
+  }
+}
