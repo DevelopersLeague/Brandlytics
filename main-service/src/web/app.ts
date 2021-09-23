@@ -4,7 +4,6 @@ import express, { Application, Request, Response } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { reqLoggingMiddleware } from './middleware';
-import { APIError } from '../domain/utils';
 
 export interface IBaseController {
   path: string;
@@ -24,16 +23,17 @@ export class App {
     this.controllers = controllers;
 
     // middleware
-    this.expressApp.use(express.json());
     this.expressApp.use(cors());
+    this.expressApp.use(express.json());
     this.expressApp.use(
       reqLoggingMiddleware((str) => {
         reqLogger.info(str);
       })
     );
     this.expressApp.use(helmet());
+
+    //health check
     this.expressApp.get('/health', (req: Request, res: Response) => {
-      // throw APIError.forbidden('not allowed');
       res.json({ status: 'healthy' });
     });
 
@@ -47,7 +47,7 @@ export class App {
       // eslint-disable-next-line
       (err: IAPIError, req: Request, res: Response, next: NextFunction) => {
         errorLogger.error(err.message, { stack: err.stack });
-        if (process.env.NODE_ENV == 'development') {
+        if (process.env.NODE_ENV == 'development' && !err.statusCode) {
           console.log(err);
         }
         let code: number;
