@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, Handler } from 'express';
 import { AnyObjectSchema, ValidationError } from 'yup';
 import * as jwt from 'jsonwebtoken';
+import { APIError } from '../../domain/utils';
 
 export function reqLoggingMiddleware(
   logMethod: (...args: any) => any
@@ -41,24 +42,24 @@ export function validate({
   query?: AnyObjectSchema;
   params?: AnyObjectSchema;
 }): Handler {
-  return function (req: Request, res: Response, next: NextFunction): void {
+  return async function (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       if (query) {
-        query.validate(req.query);
+        await query.validate(req.query);
       }
       if (body) {
-        body.validate(req.body);
+        await body.validate(req.body);
       }
       if (params) {
-        params.validate(req.params);
+        await params.validate(req.params);
       }
-    } catch (err: any) {
-      const error = <ValidationError>err;
-      res.status(400).json({
-        code: 400,
-        message: error.errors[0],
-      });
-      return;
+    } catch (err) {
+      const validationError = <ValidationError>err;
+      next(APIError.invalidRequest(validationError.errors[0]));
     }
     next();
   };
@@ -94,7 +95,7 @@ export function auth(): Handler {
     }
     try {
       const tokenDecoded = jwt.verify(splits[1], process.env.SECRET_KEY) as any;
-      req.user = {
+      res.locals.user = {
         id: tokenDecoded.sub,
         firstname: tokenDecoded.firstname,
         lastname: tokenDecoded.lastname,
