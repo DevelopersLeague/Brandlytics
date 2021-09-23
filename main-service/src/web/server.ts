@@ -5,17 +5,17 @@ loadEnv('.env.json');
 import '../config/tsyringe';
 
 // setup
-import { App } from './App';
+import { App, IBaseController } from './App';
 import { ILogger, IConfigService } from '../domain/interfaces';
 import { container } from 'tsyringe';
 
-const cs = container.resolve<IConfigService>('configService');
+const cs = container.resolve<IConfigService>('config_service');
 const logger = container.resolve<ILogger>('logger');
 
 const PORT = Number(cs.get('PORT'));
 
 const app = new App(
-  [],
+  [container.resolve<IBaseController>('auth_controller')],
   container.resolve<ILogger>('error_logger'),
   container.resolve<ILogger>('req_logger')
 );

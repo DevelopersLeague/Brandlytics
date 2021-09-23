@@ -16,3 +16,11 @@ export interface IUserUpdateDTO {
   username?: string;
   password?: string;
 }
+
+export interface IUserRespDTO {
+  firstname: string;
+  lastname: string;
+  username: string;
+  createdAt: string;
+  updatedAt: string;
+}
