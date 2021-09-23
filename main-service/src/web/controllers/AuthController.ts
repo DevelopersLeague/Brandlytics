@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { validate } from '../middleware';
 import { inject, injectable, singleton } from 'tsyringe';
 import { IUserService } from '../../domain/interfaces';
+import { catchAsync } from '../../web/utils';
 
 @injectable()
 @singleton()
@@ -27,7 +28,7 @@ export class AuthController implements IBaseController {
           password: schemas.passwordSchema.required(),
         }),
       }),
-      this.signupHandler.bind(this)
+      catchAsync(this.signupHandler.bind(this))
     );
     router.post(
       '/login',
@@ -37,7 +38,7 @@ export class AuthController implements IBaseController {
           password: schemas.passwordSchema.required(),
         }),
       }),
-      this.signupHandler.bind(this)
+      catchAsync(this.loginHandler.bind(this))
     );
     return router;
   }
