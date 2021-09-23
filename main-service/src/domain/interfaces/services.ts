@@ -1,10 +1,8 @@
-import { IUserCreateDTO, IUser, IUserUpdateDTO } from './index';
+import { IUserSignupDTO, IUser, IUserUpdateDTO, IUserLoginDTO } from './index';
 
 export interface IUserService {
-  createUser: (userCreateDto: IUserCreateDTO) => Promise<IUser>;
-  updateUser: (id: number,userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
+  signup: (userCreateDto: IUserSignupDTO) => Promise<string>;
+  login: (userLoginDto: IUserLoginDTO) => Promise<string>;
   deleteUser: (id: number) => Promise<IUser>;
-  getUserById: (id: number) => Promise<IUser>;
-  getUserByUsername: (username: string) => Promise<IUser>;
-  getAllUsers: () => Promise<IUser[]>;
+  updateUser: (id: number, userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
 }
