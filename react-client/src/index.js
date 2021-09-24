@@ -14,7 +14,7 @@ import { APIClient } from "./lib/api";
     username: "aniket_more3",
     password: "password123",
   });
-  console.log(user);
+  client.signup({})
 })().catch(console.log);
 
 ReactDOM.render(
@@ -28,3 +28,7 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+// zustand
+// react-query
+// chakra ui
