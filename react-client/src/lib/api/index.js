@@ -64,8 +64,8 @@ export class APIClient {
    * @property {string} lastname
    */
   /**
-   * @param {SignupOptions}
-   * @returns {Promise<User>}
+   * @param {SignupOptions} options
+   * @returns {Promise<User>} user object
    */
   async signup({ username, password, firstname, lastname }) {
     const resp = await fetch(`${this._serverBaseUrl}/api/v1/auth/signup`, {
