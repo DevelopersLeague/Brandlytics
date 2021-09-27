@@ -5,7 +5,7 @@ import {
   IUserRepository,
   IUserService,
 } from '../domain/interfaces';
-import { configServiceInstance } from './configService';
+import { configServiceInstance } from './configservice';
 import { loggerInstance } from './logger';
 import { errLoggerInstance } from './errorLogger';
 import { reqLoggerInstance } from './reqLogger';
@@ -13,7 +13,7 @@ import { knexInstance } from './knex';
 import { Knex } from 'knex';
 import { UserRepository } from '../database/repositories';
 import { UserService } from '../domain/services';
-import { IBaseController } from '../web/App';
+import { IBaseController } from '../web/app';
 import { AuthController } from '../web/controllers/AuthController';
 
 // config service

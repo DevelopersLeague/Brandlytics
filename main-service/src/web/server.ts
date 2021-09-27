@@ -7,7 +7,7 @@ import '../config/tsyringe';
 // import { loggerInstance as logger } from '../config/logger';
 
 // setup
-import { App, IBaseController } from './App';
+import { App, IBaseController } from './app';
 import { ILogger, IConfigService } from '../domain/interfaces';
 import { container } from 'tsyringe';
 

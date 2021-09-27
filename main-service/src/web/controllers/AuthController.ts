@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { IBaseController } from '../App';
+import { IBaseController } from '../app';
 import * as schemas from '../../domain/schemas';
 import * as yup from 'yup';
 import { validate } from '../middleware';
