@@ -9,3 +9,11 @@ export const catchAsync = (
 
   return handler;
 };
+
+export const checkEnv: (keys: string[]) => void = (keys) => {
+  keys.forEach((key) => {
+    if (process.env[key] === undefined) {
+      throw new Error(`${key} environment variable is not defined`);
+    }
+  });
+};
