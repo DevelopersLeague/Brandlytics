@@ -8,11 +8,21 @@ async def analyse_tweet(req):
     body = await req.json()
     text = body['text']
     result = analyse(text)
-    return JSONResponse({"sentiment": result, "text": text})
+    body['sentiment'] = result
+    return JSONResponse(body)
+
+
+async def analyse_tweets(req):
+    body = await req.json()
+    for tweet in body:
+        result = analyse(tweet['text'])
+        tweet['sentiment'] = result
+    return JSONResponse(body)
 
 routes = [
     Mount('/api/v1', routes=[
-        Route('/analyse', endpoint=analyse_tweet, methods=['POST']),
+        Route('/analyse/tweet', endpoint=analyse_tweet, methods=['POST']),
+        Route('/analyse/tweets', endpoint=analyse_tweets, methods=['POST']),
     ]),
 ]
 
