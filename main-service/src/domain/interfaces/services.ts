@@ -9,7 +9,7 @@ export interface IUserService {
 
 export type ITweet = { id: string; text: string; createdAt: Date; username: string };
 
-export interface ITweeterAPIService {
+export interface ITwitterAPIService {
   searchTweets: (
     term: string,
     options: {
@@ -20,7 +20,7 @@ export interface ITweeterAPIService {
 
 }
 
-export type IAnalysedITweet = {
+export type IAnalysedTweet = {
   id: string;
   text: string;
   createdAt: Date;
@@ -30,6 +30,23 @@ export type IAnalysedITweet = {
 };
 
 export interface IAnalysisService {
-  analyseITweet: (tweet: ITweet) => Promise< IAnalysedITweet>;
-  analyseITweets: (tweets: ITweet[]) => Promise<IAnalysedITweet[]>;
+  // analyseITweet: (tweet: ITweet) => Promise<IAnalysedITweet>;
+  analyseITweets: (tweets: ITweet[]) => Promise<IAnalysedTweet[]>;
+}
+
+export type SentimentItem = {
+  date: string,
+  positive: number,
+  negative: number
+}
+
+export type SentimentReport = {
+  sentiments: SentimentItem[]
+  examples: { [key: string]: ITweet[] }
+}
+
+export interface ISentimentService {
+  getSentiment: (term: string, opts?: {
+    until: string,
+  }) => Promise<SentimentReport>
 }
