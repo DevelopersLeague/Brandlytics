@@ -1,14 +1,15 @@
-import { ITweeterAPIService, ITweet, IConfigService } from '../domain/interfaces'
+import { ITwitterAPIService, ITweet, IConfigService, IAnalysisService } from '../domain/interfaces'
 import { inject, singleton, injectable } from 'tsyringe'
 import axios from 'axios'
-import { config } from 'process'
 
 @injectable()
 @singleton()
-export class TwitterAPIService implements ITweeterAPIService {
+export class TwitterAPIService implements ITwitterAPIService {
   constructor(
     @inject('config_service')
-    private readonly configService: IConfigService
+    private readonly configService: IConfigService,
+    @inject('analysis_service')
+    private readonly analysisService: IAnalysisService
   ) { }
   public async searchTweets(term: string, opts: { until: string, count: number }): Promise<ITweet[]> {
     const params = new URLSearchParams([['until', opts.until], ['q', encodeURIComponent(term)], ['count', opts.count.toString()]])
