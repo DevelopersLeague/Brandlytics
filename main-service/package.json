@@ -36,6 +36,7 @@
     "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "date-fns": "^2.24.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
