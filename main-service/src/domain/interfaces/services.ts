@@ -38,6 +38,7 @@ export type SentimentItem = {
   date: string,
   positive: number,
   negative: number
+  total: number
 }
 
 export type SentimentReport = {
@@ -46,7 +47,5 @@ export type SentimentReport = {
 }
 
 export interface ISentimentService {
-  getSentiment: (term: string, opts?: {
-    until: string,
-  }) => Promise<SentimentReport>
+  getSentiment: (term: string) => Promise<SentimentReport>
 }
