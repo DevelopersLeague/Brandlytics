@@ -18,6 +18,8 @@ export class AnalysisService implements IAnalysisService {
         "Content-Type": "application/json"
       }
     })
-    return resp.data as IAnalysedTweet[];
+    return resp.data.map((tweet: any) => {
+      return { ...tweet, createdAt: new Date(tweet.createdAt) }
+    }) as IAnalysedTweet[];
   }
 }
