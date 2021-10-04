@@ -112,7 +112,7 @@ export class APIClient {
    */
   async getSentiment(term) {
     term = encodeURIComponent(term);
-    const params = new URLSearchParams(["term", term]);
+    const params = new URLSearchParams([["term", term]]);
     const resp = await fetch(
       `${this._serverBaseUrl}/api/v1/sentiment/week?` + params.toString(),
       {
