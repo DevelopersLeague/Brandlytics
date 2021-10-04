@@ -16,8 +16,11 @@ const logger = container.resolve<ILogger>('logger');
 
 const PORT = Number(cs.get('PORT'));
 
+const authController = container.resolve<IBaseController>('auth_controller');
+const sentimentController = container.resolve<IBaseController>('sentiment_controller');
+
 const app = new App(
-  [container.resolve<IBaseController>('auth_controller')],
+  [authController, sentimentController],
   container.resolve<ILogger>('error_logger'),
   container.resolve<ILogger>('req_logger')
 );
