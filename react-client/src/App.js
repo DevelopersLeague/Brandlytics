@@ -6,6 +6,7 @@ import AuthGuard from './components/AuthGuard'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import Search from './pages/Search';
 import LandingPage from './pages/LandingPage';
 import {useAuthStore} from './stores'
 import Sidebar from './pages/Sidebar';
@@ -42,6 +43,11 @@ function App() {
           <Route exact path="/home">
             <AuthGuard to="/login">
               <Home/>
+            </AuthGuard>
+          </Route>
+          <Route exact path="/search">
+            <AuthGuard to="/login">
+              <Search/>
             </AuthGuard>
           </Route>
         </Switch>
