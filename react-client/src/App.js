@@ -1,28 +1,45 @@
 import React from 'react'
 import {useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {ChakraProvider} from '@chakra-ui/react';
+import {ChakraProvider, extendTheme} from '@chakra-ui/react';
 import AuthGuard from './components/AuthGuard'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import LandingPage from './pages/LandingPage';
 import {useAuthStore} from './stores'
+import Sidebar from './pages/Sidebar';
+
+
+const theme = extendTheme({
+  styles: {
+    global :{
+      body:{
+        bg: "#dfe1f0",                
+      }
+    }
+  }    
+});
+
 
 function App() {    
   return (    
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       {(()=>{
         console.log('render');
-      })()}
-      <Router>
+      })()}      
+      <Router>        
         <Switch>
+        <Route exact path="/">
+          <LandingPage />
+        </Route>
           <Route exact path="/login">
             <Login/>
           </Route>
           <Route exact path="/signup">
             <Signup/>
           </Route>
-          <Route exact path="/">
+          <Route exact path="/home">
             <AuthGuard to="/login">
               <Home/>
             </AuthGuard>
