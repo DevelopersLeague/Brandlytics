@@ -6,6 +6,7 @@ import {
   IUserService,
   ITwitterAPIService,
   IAnalysisService,
+  ISentimentService,
 } from '../domain/interfaces';
 import { configServiceInstance } from './configservice';
 import { loggerInstance } from './logger';
@@ -19,6 +20,8 @@ import { IBaseController } from '../web/app';
 import { AuthController } from '../web/controllers/AuthController';
 import { TwitterAPIService } from '../external/TwitterAPIService';
 import { AnalysisService } from '../external/AnalyseService';
+import { SentimentService } from '../domain/services/SentimentService';
+import { SentimentController } from '../web/controllers/SentimentController';
 
 // config service
 container.register<IConfigService>('config_service', {
@@ -71,3 +74,12 @@ container.register<IAnalysisService>('analysis_service', {
 })
 
 // sentiment service
+container.register<ISentimentService>('sentiment_service', {
+  useClass: SentimentService
+})
+
+// sentiment service
+container.register<IBaseController>('sentiment_controller', {
+  useClass: SentimentController
+})
+
