@@ -13,3 +13,7 @@ autopep8 = "*"
 
 [requires]
 python_version = "3.9"
+
+[scripts]
+start = "uvicorn src.main:app --port 8081"
+dev = "uvicorn src.main:app --reload --port 8081"

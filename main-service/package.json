@@ -7,7 +7,7 @@
     "start": "node dist/web/server.js",
     "build": "tsc",
     "dev": "nodemon src/web/server.ts",
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "migrate:up": "ts-node ./src/scripts/migrate.ts up",
     "migrate:down": "ts-node ./src/scripts/migrate.ts down",
     "prestart": "npm run build"
@@ -33,8 +33,10 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "date-fns": "^2.24.0",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",

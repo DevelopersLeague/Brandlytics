@@ -7,18 +7,20 @@ export interface IUserService {
   updateUser: (id: number, userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
 }
 
-type Tweet = { id: string; text: string; createdAt: Date; username: string };
+export type ITweet = { id: string; text: string; createdAt: Date; username: string };
 
-export interface ITweeterAPIService {
+export interface ITwitterAPIService {
   searchTweets: (
     term: string,
     options: {
-      until: string;
+      until: string,
+      count: number
     }
-  ) => Tweet[];
+  ) => Promise<ITweet[]>
+
 }
 
-type AnalysedTweet = {
+export type IAnalysedTweet = {
   id: string;
   text: string;
   createdAt: Date;
@@ -28,6 +30,22 @@ type AnalysedTweet = {
 };
 
 export interface IAnalysisService {
-  analyseTweet: (tweet: Tweet) => AnalysedTweet;
-  analyseTweets: (tweets: Tweet[]) => AnalysedTweet[];
+  // analyseITweet: (tweet: ITweet) => Promise<IAnalysedITweet>;
+  analyseITweets: (tweets: ITweet[]) => Promise<IAnalysedTweet[]>;
+}
+
+export type SentimentItem = {
+  date: string,
+  positive: number,
+  negative: number
+  total: number
+}
+
+export type SentimentReport = {
+  sentiments: SentimentItem[]
+  examples: { [key: string]: ITweet[] }
+}
+
+export interface ISentimentService {
+  getSentiment: (term: string) => Promise<SentimentReport>
 }

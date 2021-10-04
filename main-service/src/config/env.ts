@@ -11,7 +11,7 @@ export function loadEnv(filename: string): void {
   const fileContent = fs.readFileSync(filePath).toString();
   const fileJson = JSON.parse(fileContent);
   Object.keys(fileJson).forEach((key) => {
-    if (typeof fileJson[key] != 'string') {
+    if (typeof fileJson[key] != 'string' && process.env[key] === undefined) {
       throw new Error('value for each key must be a string in env json files');
     }
     process.env[key] = fileJson[key];

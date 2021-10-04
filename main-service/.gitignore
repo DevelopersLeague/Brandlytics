@@ -9,3 +9,4 @@ dist
 *.db
 *.log
 .env.json
+src/test.ts

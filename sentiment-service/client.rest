@@ -1,7 +1,25 @@
-POST /api/v1/analyse HTTP/1.1
-Host: localhost:8000
+POST /api/v1/analyse/tweet HTTP/1.1
+Host: localhost:8081
 Content-Type: application/json
 
 {
     "text":"this is nice"
 }
+###
+POST /api/v1/analyse/tweets HTTP/1.1
+Host: localhost:8081
+Content-Type: application/json
+
+[
+    {
+        "text":"this is nice",
+        "another":"extra"
+    },
+    {
+        "text":"this is nice",
+        "another":"extra"
+    },
+    {
+        "text":"this is nice"
+    }
+]
