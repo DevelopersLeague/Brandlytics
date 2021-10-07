@@ -16,10 +16,13 @@ Content-Type: application/json
         "another":"extra"
     },
     {
-        "text":"this is nice",
+        "text":"this is bad",
         "another":"extra"
     },
     {
-        "text":"this is nice"
+        "text":"twitter is good"
+    },
+    {
+        "text":"twitter is bad"
     }
 ]
