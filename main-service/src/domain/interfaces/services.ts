@@ -7,7 +7,7 @@ export interface IUserService {
   updateUser: (id: number, userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
 }
 
-export type ITweet = { id: string; text: string; createdAt: Date; username: string };
+export type ITweet = { id: string; text: string; createdAt: Date; username: string, truncated: boolean };
 
 export interface ITwitterAPIService {
   searchTweets: (
@@ -27,6 +27,7 @@ export type IAnalysedTweet = {
   username: string;
   sentiment: string;
   confidence: number;
+  truncated: boolean;
 };
 
 export interface IAnalysisService {

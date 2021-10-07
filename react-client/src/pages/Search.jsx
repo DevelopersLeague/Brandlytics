@@ -1,32 +1,17 @@
 import React from "react";
+import * as datefns from "date-fns";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import {
   FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  CloseButton,
-  Center,
-  ArrowForwardIcon,
   Container,
-  Stack,
   Flex,
   Box,
   Heading,
   Text,
   Button,
-  ButtonGroup,
-  Image,
-  Icon,
-  IconButton,
-  createIcon,
-  IconProps,
-  useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import {
@@ -64,11 +49,9 @@ function Search() {
     e.preventDefault();
     setIsLoading(true);
     setTodayResult(false);
-    console.log(searchTerm);
     try {
       const sentiments = await client.getSentiment(searchTerm);
       setSentimentData(sentiments.sentiments);
-      console.log(sentiments);
       setIsLoading(false);
       setIsSearched(true);
     } catch (err) {
@@ -125,15 +108,18 @@ function Search() {
   return (
     <>
       <Container
-        bg="#fbfcfe"
-        borderRadius="3xl"
+        // bg="#fbfcfe"
+        // borderRadius="3xl"
         p="3"
         maxW="7xl"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         marginTop="10"
         marginBottom="10"
       >
         <Flex direction="row">
-          <Flex direction="column" p="3" width="72">
+          {/* <Flex direction="column" p="3" width="72">
             <Heading
               lineHeight={1.1}
               fontWeight={600}
@@ -146,8 +132,14 @@ function Search() {
                 </Text>
               </Text>
             </Heading>
-          </Flex>
-          <Flex direction="column" bg="#f0f3ff" width="6xl" p="5">
+          </Flex> */}
+          <Flex
+            direction="column"
+            bg="#f0f3ff"
+            width="6xl"
+            p="5"
+            borderRadius="lg"
+          >
             <Heading
               lineHeight={1.1}
               fontWeight={600}
@@ -170,7 +162,7 @@ function Search() {
               borderRadius="2xl"
               width="4xl"
               as="form"
-              boxShadow="2xl"
+              boxShadow="md"
             >
               <FormControl id="term" mb="6">
                 <FormLabel fontSize="xl">Search Term</FormLabel>
@@ -178,6 +170,7 @@ function Search() {
                   fontSize="large"
                   placeholder="Enter The Search Term With #"
                   p="3"
+                  isDisabled={isLoading}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
                   }}
@@ -186,7 +179,7 @@ function Search() {
               </FormControl>
               <Button
                 type="submit"
-                colorScheme="pink"
+                colorScheme="blue"
                 isLoading={isLoading}
                 onClick={handleSearch}
                 width={"full"}
@@ -195,123 +188,91 @@ function Search() {
                 Get Sentiment Analysis
               </Button>
             </Box>
+            {isSearched && isLoading && (
+              <Box
+                mt="8"
+                p="3"
+                alignSelf="center"
+                alignContent="center"
+                textAlign="center"
+                alignItems="center"
+                bg="white"
+                borderRadius="2xl"
+                width="4xl"
+                as="form"
+                boxShadow="md"
+              >
+                <Spinner />
+              </Box>
+            )}
 
-            <Box
-              mt="8"
-              p="3"
-              alignSelf="center"
-              alignContent="center"
-              textAlign="center"
-              alignItems="center"
-              bg="white"
-              borderRadius="2xl"
-              width="4xl"
-              as="form"
-              boxShadow="2xl"
-            >
-              {isSearched ? (
-                <>
-                  <Heading
-                    lineHeight={1.1}
-                    fontWeight={600}
-                    fontSize={{ base: "2xl", sm: "2xl", lg: "2xl" }}
-                  >
-                    <Text>
-                      Results For {searchTerm} <ChevronRightIcon />
-                    </Text>
-                  </Heading>
-                  <LineChart
-                    width={800}
-                    height={300}
-                    data={[
-                      {
-                        date: "7 Days Ago",
-                        negative: sentimentData[0].negative,
-                        positive: sentimentData[0].positive,
-                        total: sentimentData[0].total,
-                      },
-                      {
-                        date: "6",
-                        negative: sentimentData[1].negative,
-                        positive: sentimentData[1].positive,
-                        total: sentimentData[1].total,
-                      },
-                      {
-                        date: "5",
-                        negative: sentimentData[2].negative,
-                        positive: sentimentData[2].positive,
-                        total: sentimentData[2].total,
-                      },
-                      {
-                        date: "4",
-                        negative: sentimentData[3].negative,
-                        positive: sentimentData[3].positive,
-                        total: sentimentData[3].total,
-                      },
-                      {
-                        date: "3",
-                        negative: sentimentData[4].negative,
-                        positive: sentimentData[4].positive,
-                        total: sentimentData[4].total,
-                      },
-                      {
-                        date: "2",
-                        negative: sentimentData[5].negative,
-                        positive: sentimentData[5].positive,
-                        total: sentimentData[5].total,
-                      },
-                      {
-                        date: "1",
-                        negative: sentimentData[6].negative,
-                        positive: sentimentData[6].positive,
-                        total: sentimentData[6].total,
-                      },
-                    ]}
-                    margin={{ left: 10, top: 10 }}
-                  >
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                    <Line type="monotone" dataKey="negative" stroke="#f70000" />
-                    <Line type="monotone" dataKey="positive" stroke="#82ca9d" />
-                  </LineChart>
-                  <Button
-                    colorScheme="cyan"
-                    onClick={() => {
-                      setTodayResult(true);
-                    }}
-                  >
-                    Get Todays Analysis <InfoOutlineIcon ml="2" />
-                  </Button>
-                  <Button ml="2" colorScheme="teal">
-                    Save <StarIcon ml="2" />
-                  </Button>
-                  <Button ml="2" colorScheme="cyan">
-                    Download <DownloadIcon ml="2" />
-                  </Button>
-                </>
-              ) : (
+            {isSearched && !isLoading ? (
+              <Box
+                mt="8"
+                py="8"
+                px="3"
+                alignSelf="center"
+                alignContent="center"
+                textAlign="center"
+                alignItems="center"
+                bg="white"
+                borderRadius="2xl"
+                width="4xl"
+                as="form"
+                boxShadow="md"
+              >
                 <Heading
                   lineHeight={1.1}
                   fontWeight={600}
+                  mb="5"
                   fontSize={{ base: "2xl", sm: "2xl", lg: "2xl" }}
                 >
-                  <Text>Search To Get Analysis In This Form</Text>
-                  <LineChart
-                    width={800}
-                    height={300}
-                    data={data}
-                    margin={{ left: 10, top: 10 }}
-                  >
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                    <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
-                  </LineChart>
+                  <Text>
+                    Results <ChevronRightIcon />
+                  </Text>
                 </Heading>
-              )}
-            </Box>
+                <LineChart
+                  width={800}
+                  height={300}
+                  data={sentimentData.map((item) => {
+                    return {
+                      date: datefns.format(new Date(item.date), "dd MMM yyyy"),
+                      positive: parseFloat(
+                        ((item.positive * 100) / item.total).toFixed(3)
+                      ),
+                      negative: parseFloat(
+                        ((item.negative * 100) / item.total).toFixed(3)
+                      ),
+                      total: 100,
+                    };
+                  })}
+                  margin={{ left: 10, top: 10, bottom: 20 }}
+                >
+                  <XAxis dataKey="date" tickMargin={12} />
+                  <YAxis tickFormatter={(val) => val + "%"} />
+                  <Tooltip />
+                  <Legend />
+                  <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
+                  <Line type="monotone" dataKey="negative" stroke="#f70000" />
+                  <Line type="monotone" dataKey="positive" stroke="#82ca9d" />
+                </LineChart>
+                <Button
+                  colorScheme="blue"
+                  color="white"
+                  onClick={() => {
+                    setTodayResult(true);
+                  }}
+                >
+                  Get Todays Analysis <InfoOutlineIcon ml="2" color="white" />
+                </Button>
+                {/* <Button ml="2" colorScheme="blue">
+                  Save <StarIcon ml="2" />
+                </Button>
+                <Button ml="2" colorScheme="blue" color="white">
+                  Download <DownloadIcon ml="2" />
+                </Button> */}
+              </Box>
+            ) : null}
             {todayResult ? (
               <Box
                 mt="8"
@@ -331,18 +292,38 @@ function Search() {
                   fontSize={{ base: "2xl", sm: "2xl", lg: "2xl" }}
                 >
                   <Text>
-                    Todays Results For {searchTerm} <ChevronRightIcon />
+                    Todays Results
+                    <ChevronRightIcon />
                   </Text>
                 </Heading>
                 <BarChart
                   width={850}
                   height={300}
                   data={[
+                    // {
+                    //   date: "1",
+                    //   negative: sentimentData[6].negative,
+                    //   positive: sentimentData[6].positive,
+                    //   total: sentimentData[6].total,
+                    // },
                     {
-                      date: "1",
-                      negative: sentimentData[6].negative,
-                      positive: sentimentData[6].positive,
-                      total: sentimentData[6].total,
+                      date: datefns.format(
+                        new Date(sentimentData[6].date),
+                        "dd MMM yyyy"
+                      ),
+                      positive: parseFloat(
+                        (
+                          (sentimentData[6].positive * 100) /
+                          sentimentData[6].total
+                        ).toFixed(3)
+                      ),
+                      negative: parseFloat(
+                        (
+                          (sentimentData[6].negative * 100) /
+                          sentimentData[6].total
+                        ).toFixed(3)
+                      ),
+                      total: 100,
                     },
                   ]}
                   margin={{

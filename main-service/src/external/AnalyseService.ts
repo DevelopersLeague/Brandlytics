@@ -1,4 +1,5 @@
 import axios from 'axios';
+import fs, { fsyncSync } from 'fs'
 import { inject, injectable, singleton } from 'tsyringe'
 import { IAnalysedTweet, IAnalysisService, IConfigService, ITweet } from '../domain/interfaces';
 

@@ -2,6 +2,7 @@ import { ITwitterAPIService, ITweet, IConfigService, IAnalysisService } from '..
 import * as dateFns from 'date-fns'
 import { inject, singleton, injectable } from 'tsyringe'
 import axios from 'axios'
+import { truncate } from 'fs';
 
 function ISTtoUTC(dateIST: Date): Date {
   const hrms = 1 * 60 * 60 * 1000;
@@ -25,7 +26,7 @@ export class TwitterAPIService implements ITwitterAPIService {
     private readonly configService: IConfigService,
   ) { }
   public async searchTweets(term: string, opts: { until: string, count: number }): Promise<ITweet[]> {
-    const params = new URLSearchParams([['until', opts.until], ['q', encodeURIComponent(term)], ['count', opts.count.toString()]])
+    const params = new URLSearchParams([['until', opts.until], ['q', term], ['count', opts.count.toString()]])
     const resp = await axios.get(`https://api.twitter.com/1.1/search/tweets.json?${params.toString()}`, {
       headers: {
         'Authorization': `Bearer ${this.configService.get('TWITTER_BEARER_TOKEN')}`
@@ -38,7 +39,8 @@ export class TwitterAPIService implements ITwitterAPIService {
         id: status.id.toString(),
         createdAt: UTCtoIST(date),
         text: status.text,
-        username: status.user.screen_name
+        username: status.user.screen_name,
+        truncated: status.truncated
       }
     })
     return tweets;

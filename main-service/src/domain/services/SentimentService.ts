@@ -1,5 +1,5 @@
 import { injectable, inject, singleton } from 'tsyringe'
-import { IAnalysedTweet, IAnalysisService, ISentimentService, ITwitterAPIService, SentimentItem, SentimentReport } from '../interfaces';
+import { IAnalysedTweet, IAnalysisService, ISentimentService, ITweet, ITwitterAPIService, SentimentItem, SentimentReport } from '../interfaces';
 
 @injectable()
 @singleton()
@@ -19,10 +19,26 @@ export class SentimentService implements ISentimentService {
     for (let i = 0; i < 7; i++) {
       // date is one day ahead of expected date for tweets because of the behaviour of the api
       // fetch tweets for each date
-      const respTweets = await this.apiService.searchTweets(term, {
-        until: date.toISOString().split('T')[0],
-        count: 100
-      })
+      const respTweets: ITweet[] = []
+      for (let i = 0; i < 1; i++) {
+        const resp = await this.apiService.searchTweets(term, {
+          until: date.toISOString().split('T')[0],
+          count: 100
+        })
+        let flag = true;
+        respTweets.push(...resp.filter(tweet => {
+          if (flag) {
+            flag = false
+          }
+          if (tweet.truncated) {
+            return false
+          }
+          else {
+            return true
+          }
+        }))
+      }
+
       // analyse them
       const analysed = await this.analysisService.analyseITweets(respTweets);
       // collect them

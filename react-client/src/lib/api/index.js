@@ -123,6 +123,7 @@ export class APIClient {
       }
     );
     const respJson = await resp.json();
+    console.log(respJson)
     return respJson;
   }
 }

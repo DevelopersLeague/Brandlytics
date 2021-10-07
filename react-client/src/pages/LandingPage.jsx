@@ -19,9 +19,11 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 import logo from "../images/Brandlytics.png";
 import { Link, useHistory } from "react-router-dom";
 import GitHubButton from "react-github-btn";
+import { useAuthStore } from "../stores";
 
 function LandingPage() {
   const history = useHistory();
+  const user = useAuthStore(store => store.user)
   return (
     <>
       <Container maxW={"7xl"}>
@@ -39,20 +41,37 @@ function LandingPage() {
           <Link to="/">
             <Image src={logo} alt="Segun Adebayo" height="10" />
           </Link>
-          <Button
-            rounded={"full"}
-            size={"lg"}
-            fontWeight={"normal"}
-            px={6}
-            colorScheme={"red"}
-            bg={"black"}
-            _hover={{ bg: "red.500" }}
-            onClick={() => {
-              history.push("/login");
-            }}
-          >
-            Login
-          </Button>
+          {!user ? (
+            <Button
+              rounded={"full"}
+              size={"lg"}
+              fontWeight={"normal"}
+              px={6}
+              colorScheme={"red"}
+              bg={"black"}
+              _hover={{ bg: "red.500" }}
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              rounded={"full"}
+              size={"lg"}
+              fontWeight={"normal"}
+              px={6}
+              colorScheme={"red"}
+              bg={"black"}
+              _hover={{ bg: "red.500" }}
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              Logout
+            </Button>
+          )}
         </Flex>
         <Stack
           align={"center"}
@@ -462,7 +481,7 @@ function LandingPage() {
             className="px-4 mx-0"
           ></GitHubButton>
           <Text color="white" fontSize="2xl">
-            Star EverHustle on GitHub ❤
+            Star Brandlytics on GitHub ❤
           </Text>
         </Flex>
       </Container>

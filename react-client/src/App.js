@@ -9,7 +9,7 @@ import Signup from './pages/Signup'
 import Search from './pages/Search';
 import LandingPage from './pages/LandingPage';
 import {useAuthStore} from './stores'
-import Sidebar from './pages/Sidebar';
+// import Sidebar from './pages/Sidebar';
 
 
 const theme = extendTheme({
