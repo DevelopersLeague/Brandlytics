@@ -23,7 +23,7 @@ import { useAuthStore } from "../stores";
 
 function LandingPage() {
   const history = useHistory();
-  const user = useAuthStore(store => store.user)
+  const user = useAuthStore((store) => store.user);
   return (
     <>
       <Container maxW={"7xl"}>
@@ -32,7 +32,7 @@ function LandingPage() {
           p="3"
           borderRadius="3xl"
           borderTopRadius="0"
-          shadow="dark-lg"
+          shadow="md"
           justifyContent="space-between"
           pos="fixed"
           width="89%"

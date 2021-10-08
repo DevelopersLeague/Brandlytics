@@ -14,7 +14,7 @@ export class AnalysisService implements IAnalysisService {
 
   public async analyseITweets(tweets: ITweet[]): Promise<IAnalysedTweet[]> {
     const baseUrl = this.configService.get('SENTIMENT_SERVICE_BASE_URL')
-    const resp = await axios.post(`${baseUrl}/api/v1/analyse/tweets/`, tweets, {
+    const resp = await axios.post(`${baseUrl}/api/v1/analyse/tweets`, tweets, {
       headers: {
         "Content-Type": "application/json"
       }
