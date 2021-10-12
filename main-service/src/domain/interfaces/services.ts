@@ -1,10 +1,18 @@
-import { IUserSignupDTO, IUser, IUserUpdateDTO, IUserLoginDTO } from './index';
+import { IUserSignupDTO, IUser, IUserUpdateDTO, IUserLoginDTO, IQueryCreateDTO, IQueryUpdateDTO, IQueryRespDTO } from './index';
 
 export interface IUserService {
   signup: (userCreateDto: IUserSignupDTO) => Promise<string>;
   login: (userLoginDto: IUserLoginDTO) => Promise<string>;
   deleteUser: (id: number) => Promise<IUser>;
   updateUser: (id: number, userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
+}
+
+export interface IQueryService {
+  create: (dto: IQueryCreateDTO) => Promise<IQueryRespDTO>;
+  update: (dto: IQueryUpdateDTO) => Promise<IQueryRespDTO>;
+  delete: (id: number) => Promise<IQueryRespDTO>
+  findByUserId: (id: number) => Promise<IQueryRespDTO[]>
+  findById: (id: number) => Promise<IQueryRespDTO>
 }
 
 export type ITweet = { id: string; text: string; createdAt: Date; username: string, truncated: boolean };
