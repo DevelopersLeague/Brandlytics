@@ -20,6 +20,7 @@ import { IBaseController } from '../web/app';
 import { AuthController } from '../web/controllers/AuthController';
 import { TwitterAPIService } from '../external/TwitterAPIService';
 import { AnalysisService } from '../external/AnalyseService';
+import { MockAnalysisService } from '../external/mockAnalyseService';
 import { SentimentService } from '../domain/services/SentimentService';
 import { SentimentController } from '../web/controllers/SentimentController';
 
@@ -69,8 +70,13 @@ container.register<ITwitterAPIService>('twitter_api_service', {
 })
 
 // analysis service
+// container.register<IAnalysisService>('analysis_service', {
+//   useClass: AnalysisService
+// })
+
+// mock analysis service
 container.register<IAnalysisService>('analysis_service', {
-  useClass: AnalysisService
+  useClass: MockAnalysisService
 })
 
 // sentiment service
