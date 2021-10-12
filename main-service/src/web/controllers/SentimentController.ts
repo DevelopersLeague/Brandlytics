@@ -31,6 +31,7 @@ export class SentimentController implements IBaseController {
       term = req.query.term as string
     }
     const resp = await this.sentimentService.getSentiment(term)
+    console.log(resp)
     res.json(resp)
   }
 }
