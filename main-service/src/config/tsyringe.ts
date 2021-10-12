@@ -7,6 +7,7 @@ import {
   ITwitterAPIService,
   IAnalysisService,
   ISentimentService,
+  IQueryRepository,
 } from '../domain/interfaces';
 import { configServiceInstance } from './configservice';
 import { loggerInstance } from './logger';
@@ -23,6 +24,7 @@ import { AnalysisService } from '../external/AnalyseService';
 import { MockAnalysisService } from '../external/mockAnalyseService';
 import { SentimentService } from '../domain/services/SentimentService';
 import { SentimentController } from '../web/controllers/SentimentController';
+import { QueryRepository } from '../database/repositories/QueryRepository';
 
 // config service
 container.register<IConfigService>('config_service', {
@@ -62,6 +64,11 @@ container.register<IUserService>('user_service', {
 //user controller
 container.register<IBaseController>('auth_controller', {
   useClass: AuthController,
+});
+
+//query repository
+container.register<IQueryRepository>('query_repository', {
+  useClass: QueryRepository,
 });
 
 // twitter api service
