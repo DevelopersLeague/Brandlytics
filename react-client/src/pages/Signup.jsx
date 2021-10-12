@@ -183,8 +183,6 @@ function Signup() {
                 <Input
                   fontSize="xl"
                   p="5"
-                  fontSize="xl"
-                  p="5"
                   placeholder="First Name"
                   onChange={(e) => {
                     setFirstName(e.target.value);
@@ -247,7 +245,7 @@ function Signup() {
 }
 
 export default Signup;
-export const Blob = (props: IconProps) => {
+export const Blob = (props) => {
   return (
     <Icon
       width={"100%"}
