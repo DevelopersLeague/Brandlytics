@@ -26,7 +26,6 @@ export type IAnalysedTweet = {
   createdAt: Date;
   username: string;
   sentiment: string;
-  confidence: number;
   truncated: boolean;
 };
 
