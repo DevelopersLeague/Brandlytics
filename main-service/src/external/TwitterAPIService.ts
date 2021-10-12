@@ -2,7 +2,7 @@ import { ITwitterAPIService, ITweet, IConfigService, IAnalysisService } from '..
 import * as dateFns from 'date-fns'
 import { inject, singleton, injectable } from 'tsyringe'
 import axios from 'axios'
-import { truncate } from 'fs';
+import { truncate, unwatchFile } from 'fs';
 
 function ISTtoUTC(dateIST: Date): Date {
   const hrms = 1 * 60 * 60 * 1000;
