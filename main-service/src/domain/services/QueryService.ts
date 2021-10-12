@@ -13,7 +13,10 @@ export class QueryService implements IQueryService {
   ) { }
 
   public async create(dto: IQueryCreateDTO): Promise<IQueryRespDTO> {
-    const query = await this.queryRepo.create(dto)
+    const query = await this.queryRepo.create({
+      user_id: dto.userId,
+      content: dto.content
+    })
     return this.mapQueryToResp(query)
   }
 

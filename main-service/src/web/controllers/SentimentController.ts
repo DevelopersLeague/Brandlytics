@@ -3,7 +3,7 @@ import { singleton, injectable, inject } from 'tsyringe'
 import * as yup from 'yup'
 import { ISentimentService } from '../../domain/interfaces';
 import { IBaseController } from '../app';
-import { validate } from '../middleware';
+import { auth, validate } from '../middleware';
 
 @singleton()
 @injectable()
@@ -17,7 +17,7 @@ export class SentimentController implements IBaseController {
   }
   public getRouter(): Router {
     const router = Router()
-    router.get('/week', validate({
+    router.get('/week', auth(), validate({
       query: yup.object().shape({
         term: yup.string().required()
       })

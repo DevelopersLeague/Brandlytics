@@ -58,7 +58,7 @@ export interface IUserRepository extends IRepository<IUser> {
   findOneByUsername: (username: string) => Promise<IUser | null>;
 }
 
-export type createQueryDto = { content: string, userId: number }
+export type createQueryDto = { content: string, user_id: number }
 
 export interface IQueryRepository extends IRepository<IQuery> {
   findByUserId: (userid: number) => Promise<IQuery[]>;
