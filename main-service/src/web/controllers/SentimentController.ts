@@ -17,7 +17,7 @@ export class SentimentController implements IBaseController {
   }
   public getRouter(): Router {
     const router = Router()
-    router.get('/week', auth(), validate({
+    router.get('/week', validate({
       query: yup.object().shape({
         term: yup.string().required()
       })

@@ -1,5 +1,5 @@
 import { ILogger, LogLevel } from '../domain/interfaces';
-import * as fsp from 'fs/promises';
+import {promises as fsp} from 'fs';
 
 const logLevelMap = {
   debug: 0,
