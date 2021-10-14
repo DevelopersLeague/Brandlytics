@@ -17,13 +17,30 @@ export class QueryController implements IBaseController {
 
   public getRouter(): Router {
     const router = Router()
+
+    router.get('/', auth(), catchAsync(this.getAll.bind(this)))
+
     router.post('/', auth(), validate({
       body: yup.object().shape({
         content: yup.string().required()
       })
     }), catchAsync(this.createQuery.bind(this)))
 
-    router.get('/', auth(), catchAsync(this.getAll.bind(this)))
+    router.patch('/:id', validate({
+      params: yup.object().shape({
+        id: yup.string().required()
+      }),
+      body: yup.object().shape({
+        content: yup.string()
+      })
+    }), catchAsync(this.updateQuery.bind(this)))
+
+    router.delete('/:id', validate({
+      params: yup.object().shape({
+        id: yup.string().required()
+      }),
+    }), catchAsync(this.deleteQuery.bind(this)))
+
     return router
   }
 
@@ -41,5 +58,21 @@ export class QueryController implements IBaseController {
     return res.json({
       queries: queries
     })
+  }
+
+  public async deleteQuery(req: Request, res: Response): Promise<void> {
+    const id = req.params.id
+    const query = this.queryService.delete(Number(id))
+    res.json({ query })
+    return
+  }
+
+  public async updateQuery(req: Request, res: Response): Promise<void> {
+    const id = req.params.id
+    const query = this.queryService.update({
+      id: Number(id),
+      content: req.body.content
+    })
+    res.json({ query })
   }
 }

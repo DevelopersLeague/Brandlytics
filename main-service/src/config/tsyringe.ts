@@ -90,14 +90,14 @@ container.register<ITwitterAPIService>('twitter_api_service', {
 })
 
 // analysis service
-container.register<IAnalysisService>('analysis_service', {
-  useClass: AnalysisService
-})
+// container.register<IAnalysisService>('analysis_service', {
+//   useClass: AnalysisService
+// })
 
 // mock analysis service
-// container.register<IAnalysisService>('analysis_service', {
-//   useClass: MockAnalysisService
-// })
+container.register<IAnalysisService>('analysis_service', {
+  useClass: MockAnalysisService
+})
 
 // sentiment service
 container.register<ISentimentService>('sentiment_service', {
