@@ -126,4 +126,69 @@ export class APIClient {
     console.log(respJson)
     return respJson;
   }
+
+  /**
+   * @typedef {Object} query
+   * @property {number} id
+   * @property {string} content
+   * @property {string} createdAt
+   * @property {string} updatedAt
+   * @property {number} userId
+   */
+  /**
+   * @returns {query[]}
+   */
+  async getQueries() {
+    // const auth = ``
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${this._token}`
+      }
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.queries
+  }
+
+  /**
+   * @param {{content: string}} opts
+   * @returns {query} created query
+   */
+  async addQuery({ content }) {
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${this._token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ content })
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.query
+  }
+
+  /**
+   * @param {number} id
+   * @returns {query} deleted query
+   */
+  async deleteQuery({ id }) {
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${this._token}`
+      },
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.query
+  }
+
 }
