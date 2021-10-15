@@ -42,6 +42,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
     "mysql": "^2.18.1",
+    "node-cache": "^5.1.2",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2",
     "tsyringe": "^4.6.0",

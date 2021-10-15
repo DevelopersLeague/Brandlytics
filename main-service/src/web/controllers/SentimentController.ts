@@ -1,7 +1,8 @@
 import { Router, Request, Response } from 'express';
+import { cache } from '../../config/cache'
 import { singleton, injectable, inject } from 'tsyringe'
 import * as yup from 'yup'
-import { ISentimentService } from '../../domain/interfaces';
+import { ISentimentService, SentimentReport } from '../../domain/interfaces';
 import { IBaseController } from '../app';
 import { auth, validate } from '../middleware';
 
@@ -26,11 +27,19 @@ export class SentimentController implements IBaseController {
   }
 
   public async getSentiment(req: Request, res: Response): Promise<any> {
+    if (req.query.term) {
+      const prev = cache.get<SentimentReport>(req.query.term as string)
+      if (prev) {
+        res.json(prev)
+        return
+      }
+    }
     let term = ""
     if (req.query.term) {
       term = req.query.term as string
     }
     const resp = await this.sentimentService.getSentiment(term)
+    cache.set(term, resp, 12 * 60 * 60)
     res.json(resp)
   }
 }
