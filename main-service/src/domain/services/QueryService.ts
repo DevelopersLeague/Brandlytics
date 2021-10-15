@@ -15,7 +15,8 @@ export class QueryService implements IQueryService {
   public async create(dto: IQueryCreateDTO): Promise<IQueryRespDTO> {
     const query = await this.queryRepo.create({
       user_id: dto.userId,
-      content: dto.content
+      content: dto.content,
+      category: dto.category
     })
     return this.mapQueryToResp(query)
   }
@@ -28,6 +29,9 @@ export class QueryService implements IQueryService {
     }
     if (dto.content) {
       query.content = dto.content
+    }
+    if (dto.category) {
+      query.category = dto.category
     }
     const updated = await this.queryRepo.save(query);
     return this.mapQueryToResp(updated)
@@ -55,10 +59,25 @@ export class QueryService implements IQueryService {
     return this.mapQueryToResp(query);
   }
 
+  public async getCategories(userId: number): Promise<string[]> {
+    const queries = await this.queryRepo.findByUserId(userId);
+    const st: Set<string> = new Set();
+    queries.forEach(query => {
+      st.add(query.category)
+    })
+    //eslint-disable-next-line
+    let cats: string[] = []
+    st.forEach(val => {
+      cats.push(val)
+    })
+    return cats
+  }
+
   private mapQueryToResp(query: IQuery): IQueryRespDTO {
     return {
       id: query.id,
       content: query.content,
+      category: query.category,
       userId: query.userId,
       createdAt: query.createdAt.toISOString(),
       updatedAt: query.updatedAt.toISOString()

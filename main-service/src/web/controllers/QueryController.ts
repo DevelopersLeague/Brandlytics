@@ -20,9 +20,12 @@ export class QueryController implements IBaseController {
 
     router.get('/', auth(), catchAsync(this.getAll.bind(this)))
 
+    router.get('/categories', auth(), catchAsync(this.getCategories.bind(this)))
+
     router.post('/', auth(), validate({
       body: yup.object().shape({
-        content: yup.string().required()
+        content: yup.string().required(),
+        category: yup.string().required()
       })
     }), catchAsync(this.createQuery.bind(this)))
 
@@ -31,7 +34,8 @@ export class QueryController implements IBaseController {
         id: yup.string().required()
       }),
       body: yup.object().shape({
-        content: yup.string()
+        content: yup.string(),
+        category: yup.string()
       })
     }), catchAsync(this.updateQuery.bind(this)))
 
@@ -48,7 +52,8 @@ export class QueryController implements IBaseController {
     const id = res.locals.user.id
     const query = await this.queryService.create({
       userId: id,
-      content: req.body.content
+      content: req.body.content,
+      category: req.body.category
     })
     return res.json({ query: query })
   }
@@ -71,8 +76,14 @@ export class QueryController implements IBaseController {
     const id = req.params.id
     const query = await this.queryService.update({
       id: Number(id),
-      content: req.body.content
+      content: req.body.content,
+      category: req.body.category
     })
     res.json({ query })
+  }
+
+  public async getCategories(req: Request, res: Response): Promise<any> {
+    const cats = await this.queryService.getCategories(res.locals.user.id)
+    return res.json({ categories: cats })
   }
 }

@@ -15,6 +15,7 @@ export async function up(knex: Knex): Promise<void> {
     .createTable('queries', (table) => {
       table.increments('id').primary().unique().notNullable();
       table.string('content').notNullable()
+      table.string('category').notNullable()
       table.integer('user_id').references('id').inTable('users').notNullable()
       table.boolean('is_deleted').notNullable().defaultTo(false);
       table.bigInteger('created_at').notNullable();

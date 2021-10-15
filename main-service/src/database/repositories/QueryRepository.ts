@@ -48,6 +48,7 @@ export class QueryRepository implements IQueryRepository {
   public async save(query: IQuery): Promise<IQuery> {
     await this.knex('queries').where({ id: query.id }).update({
       content: query.content,
+      category: query.category,
       user_id: query.userId,
       updated_at: Date.now(),
       is_deleted: query.isDeleted,
@@ -72,6 +73,7 @@ export class QueryRepository implements IQueryRepository {
     return {
       id: row.id,
       content: row.content,
+      category: row.category,
       userId: row.user_id,
       isDeleted: new Boolean(row.is_deleted).valueOf(),
       createdAt: new Date(row.created_at),

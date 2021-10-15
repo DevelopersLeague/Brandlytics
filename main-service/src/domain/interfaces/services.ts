@@ -13,6 +13,7 @@ export interface IQueryService {
   delete: (id: number) => Promise<IQueryRespDTO>
   findByUserId: (id: number) => Promise<IQueryRespDTO[]>
   findById: (id: number) => Promise<IQueryRespDTO>
+  getCategories: (userId: number) => Promise<string[]>
 }
 
 export type ITweet = { id: string; text: string; createdAt: Date; username: string, truncated: boolean };
