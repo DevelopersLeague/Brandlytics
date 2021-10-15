@@ -26,7 +26,7 @@ export class QueryController implements IBaseController {
       })
     }), catchAsync(this.createQuery.bind(this)))
 
-    router.patch('/:id', validate({
+    router.patch('/:id', auth(), validate({
       params: yup.object().shape({
         id: yup.string().required()
       }),
@@ -35,7 +35,7 @@ export class QueryController implements IBaseController {
       })
     }), catchAsync(this.updateQuery.bind(this)))
 
-    router.delete('/:id', validate({
+    router.delete('/:id', auth(), validate({
       params: yup.object().shape({
         id: yup.string().required()
       }),
@@ -62,14 +62,14 @@ export class QueryController implements IBaseController {
 
   public async deleteQuery(req: Request, res: Response): Promise<void> {
     const id = req.params.id
-    const query = this.queryService.delete(Number(id))
+    const query = await this.queryService.delete(Number(id))
     res.json({ query })
     return
   }
 
   public async updateQuery(req: Request, res: Response): Promise<void> {
     const id = req.params.id
-    const query = this.queryService.update({
+    const query = await this.queryService.update({
       id: Number(id),
       content: req.body.content
     })
