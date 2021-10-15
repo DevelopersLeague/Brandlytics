@@ -165,7 +165,7 @@ export class APIClient {
         "Authorization": `Bearer ${this._token}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ content, category})
+      body: JSON.stringify({ content, category })
     })
     const body = await resp.json()
     if (!resp.ok) {
@@ -207,6 +207,15 @@ export class APIClient {
       throw new Error(body.message)
     }
     return body.categories
+  }
+
+  /**
+   * @param {{term:string}} opts
+   */
+  getDownloadUrl({ term }) {
+    const params = new URLSearchParams([["term", term]]);
+    let url =  `${this._serverBaseUrl}/api/v1/sentiment/week/download?${params.toString()}`
+    return url
   }
 
 }
