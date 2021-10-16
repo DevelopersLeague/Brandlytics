@@ -20,7 +20,7 @@ export class SentimentService implements ISentimentService {
       // date is one day ahead of expected date for tweets because of the behaviour of the api
       // fetch tweets for each date
       const respTweets: ITweet[] = []
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 2; i++) {
         const resp = await this.apiService.searchTweets(term, {
           until: date.toISOString().split('T')[0],
           count: 100
