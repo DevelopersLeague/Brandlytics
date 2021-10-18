@@ -3,12 +3,14 @@ import {useEffect} from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {ChakraProvider, extendTheme} from '@chakra-ui/react';
 import AuthGuard from './components/AuthGuard'
+import UnAuthGuard from './components/UnAuthGuard';
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Search from './pages/Search';
 import LandingPage from './pages/LandingPage';
 import {useAuthStore} from './stores'
+import Saved from './pages/Saved';
 // import Sidebar from './pages/Sidebar';
 
 
@@ -25,20 +27,21 @@ const theme = extendTheme({
 
 function App() {    
   return (    
-    <ChakraProvider theme={theme}>
-      {(()=>{
-        console.log('render');
-      })()}      
+    <ChakraProvider theme={theme}>           
       <Router>        
         <Switch>
         <Route exact path="/">
           <LandingPage />
-        </Route>
+        </Route>        
           <Route exact path="/login">
-            <Login/>
+            <UnAuthGuard to="/">
+              <Login/>        
+            </UnAuthGuard>
           </Route>
           <Route exact path="/signup">
-            <Signup/>
+            <UnAuthGuard to="/">
+              <Signup/>        
+            </UnAuthGuard>            
           </Route>
           <Route exact path="/home">
             <AuthGuard to="/login">
@@ -48,6 +51,11 @@ function App() {
           <Route exact path="/search">
             <AuthGuard to="/login">
               <Search/>
+            </AuthGuard>
+          </Route>
+          <Route exact path="/saved">
+            <AuthGuard to="/login">
+              <Saved/>
             </AuthGuard>
           </Route>
         </Switch>
