@@ -24,6 +24,12 @@ import { useAuthStore } from "../stores";
 function LandingPage() {
   const history = useHistory();
   const user = useAuthStore((store) => store.user);
+  const setUser = useAuthStore((store) => store.setUser);
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+    history.push("/");
+  };
   return (
     <>
       <Container maxW={"7xl"}>
@@ -65,9 +71,7 @@ function LandingPage() {
               colorScheme={"red"}
               bg={"black"}
               _hover={{ bg: "red.500" }}
-              onClick={() => {
-                history.push("/login");
-              }}
+              onClick={handleLogout}
             >
               Logout
             </Button>
@@ -256,7 +260,7 @@ function LandingPage() {
                 px={6}
                 rightIcon={<ArrowForwardIcon h={4} w={4} color={"gray.500"} />}
                 onClick={() => {
-                  history.push("/login");
+                  history.push("/search");
                 }}
               >
                 Get Started
