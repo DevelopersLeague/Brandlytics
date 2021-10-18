@@ -56,7 +56,7 @@ function Login() {
       setUserName("");
       setPassword("");
       setIsLoading(false);
-      history.push("/home");
+      history.push("/search");
     } catch (err) {
       console.log(err);
       setIsAlert(true);
