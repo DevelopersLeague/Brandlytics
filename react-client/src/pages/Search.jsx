@@ -12,6 +12,17 @@ import {
   Text,
   Button,
   Spinner,
+  Select,
+} from "@chakra-ui/react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Input } from "@chakra-ui/react";
 import {
@@ -32,18 +43,37 @@ import {
   Bar,
   Legend,
 } from "recharts";
+import { useLocation } from "react-router-dom";
+import { useEffect, effect } from "react";
 import { useAuthStore } from "../stores";
+import Sidebar from "./Sidebar";
 
 function Search() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalLoading, setIsModalLoading] = useState(false);
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
   const [todayResult, setTodayResult] = useState(false);
   const [sentimentData, setSentimentData] = useState(Array);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [inputCategory, setInputCategory] = useState("");
   const user = useAuthStore((store) => store.user);
   const history = useHistory();
-
-  console.log(history.location.search);
+  const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+  };
+  const query = useQuery();
+  useEffect(() => {
+    setSearchTerm(query.get("q"));
+  }, []);
+  const isDropDownDisabled = inputCategory != "" ? true : false;
+  const isInputDisabled = selectedCategory != "" ? true : false;
+  const currentCategory = isInputDisabled ? selectedCategory : inputCategory;
+  // setCategories(client.getCategories());
+  // console.log(categories);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -60,85 +90,50 @@ function Search() {
     }
   };
 
-  const data = [
-    {
-      name: "Page A",
-      uv: 4000,
-      pv: 2400,
-      amt: 2400,
-    },
-    {
-      name: "Page B",
-      uv: 3000,
-      pv: 1398,
-      amt: 2210,
-    },
-    {
-      name: "Page C",
-      uv: 2000,
-      pv: 9800,
-      amt: 2290,
-    },
-    {
-      name: "Page D",
-      uv: 2780,
-      pv: 3908,
-      amt: 2000,
-    },
-    {
-      name: "Page E",
-      uv: 1890,
-      pv: 4800,
-      amt: 2181,
-    },
-    {
-      name: "Page F",
-      uv: 2390,
-      pv: 3800,
-      amt: 2500,
-    },
-    {
-      name: "Page G",
-      uv: 3490,
-      pv: 4300,
-      amt: 2100,
-    },
-  ];
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setIsModalLoading(true);
+    try {
+      await client.addQuery({ content: searchTerm, category: currentCategory });
+      setSelectedCategory("");
+      setInputCategory("");
+      setIsModalLoading(false);
+      onClose();
+    } catch (err) {
+      console.log(err);
+      setIsModalLoading(false);
+    }
+    const queries = await client.getQueries();
+  };
+
+  const handleOnInputCategory = (e) => {
+    setInputCategory(e.target.value);
+  };
+
+  const handleOnSelectCategory = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
   return (
     <>
       <Container
-        // bg="#fbfcfe"
-        // borderRadius="3xl"
+        bg="#fbfcfe"
+        borderRadius="3xl"
         p="3"
         maxW="7xl"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
         marginTop="10"
         marginBottom="10"
+        boxShadow="xl"
       >
         <Flex direction="row">
-          {/* <Flex direction="column" p="3" width="72">
-            <Heading
-              lineHeight={1.1}
-              fontWeight={600}
-              fontSize={{ base: "3xl", sm: "2xl", lg: "3xl" }}
-            >
-              <Text>
-                Brandl
-                <Text as="span" insetInline="auto" color="purple.700">
-                  ytics
-                </Text>
-              </Text>
-            </Heading>
-          </Flex> */}
+          <Sidebar />
           <Flex
             direction="column"
             bg="#f0f3ff"
             width="6xl"
             p="5"
             borderRadius="lg"
+            boxShadow="md"
           >
             <Heading
               lineHeight={1.1}
@@ -162,7 +157,7 @@ function Search() {
               borderRadius="2xl"
               width="4xl"
               as="form"
-              boxShadow="md"
+              boxShadow="lg"
             >
               <FormControl id="term" mb="6">
                 <FormLabel fontSize="xl">Search Term</FormLabel>
@@ -200,7 +195,7 @@ function Search() {
                 borderRadius="2xl"
                 width="4xl"
                 as="form"
-                boxShadow="md"
+                boxShadow="lg"
               >
                 <Spinner />
               </Box>
@@ -219,7 +214,7 @@ function Search() {
                 borderRadius="2xl"
                 width="4xl"
                 as="form"
-                boxShadow="md"
+                boxShadow="lg"
               >
                 <Heading
                   lineHeight={1.1}
@@ -265,12 +260,72 @@ function Search() {
                 >
                   Get Todays Analysis <InfoOutlineIcon ml="2" color="white" />
                 </Button>
-                {/* <Button ml="2" colorScheme="blue">
+                <Button
+                  ml="2"
+                  colorScheme="blue"
+                  isLoading={isCategoriesLoading}
+                  onClick={async () => {
+                    setIsCategoriesLoading(true);
+                    const categories = await client.getCategories();
+                    setCategories(categories);
+                    setIsCategoriesLoading(false);
+                    onOpen();
+                  }}
+                >
                   Save <StarIcon ml="2" />
                 </Button>
-                <Button ml="2" colorScheme="blue" color="white">
+                <Modal isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Save Search Term</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                      <FormControl>
+                        <FormLabel>Category</FormLabel>
+                        <Select
+                          placeholder="Select Category"
+                          variant="filled"
+                          value={selectedCategory}
+                          onChange={handleOnSelectCategory}
+                          isDisabled={isDropDownDisabled}
+                        >
+                          {categories.map((category) => {
+                            return <option value={category}>{category}</option>;
+                          })}
+                        </Select>
+                        <Input
+                          placeholder="Create New Category"
+                          mt="3"
+                          isDisabled={isInputDisabled}
+                          onChange={handleOnInputCategory}
+                        />
+                      </FormControl>
+                    </ModalBody>
+
+                    <ModalFooter>
+                      <Button
+                        colorScheme="blue"
+                        mr={3}
+                        isLoading={isModalLoading}
+                        onClick={handleSave}
+                      >
+                        Save
+                      </Button>
+                      <Button onClick={onClose}>Cancel</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
+                <Button
+                  ml="2"
+                  colorScheme="blue"
+                  color="white"
+                  as="a"
+                  href={client.getDownloadUrl({ term: searchTerm })}
+                  download={true}
+                  target="_blank"
+                >
                   Download <DownloadIcon ml="2" />
-                </Button> */}
+                </Button>
               </Box>
             ) : null}
             {todayResult ? (
@@ -284,7 +339,7 @@ function Search() {
                 bg="white"
                 borderRadius="2xl"
                 width="4xl"
-                boxShadow="2xl"
+                boxShadow="lg"
               >
                 <Heading
                   lineHeight={1.1}
