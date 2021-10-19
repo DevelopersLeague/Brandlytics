@@ -61,7 +61,8 @@ import { useEffect, effect } from "react";
 import { useLocation } from "react-router-dom";
 
 function Saved() {
-  const colors = ["steelblue", "violet", "red", "teal", "pink", "purple"];
+  // const colors = ["steelblue", "violet", "pink", "purple"];
+  const colors = ["teal.100", "purple.100", "blue.100", "orange.100"];
   const [categories, setCategories] = useState([]);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -75,6 +76,7 @@ function Saved() {
 
   const helperFunction = async () => {
     const categoriesList = await client.getCategories();
+    categoriesList.sort();
     const searchTerms = await client.getQueries();
     setCategories(categoriesList);
     setTerms(searchTerms);
@@ -150,12 +152,17 @@ function Saved() {
                   {categories.map((category) => {
                     return (
                       <Box
-                        // display="inline-flex"
-                        flex="1"
+                        display="inline-grid"
+                        // flex="1"
+                        width="45%"
                         // backgroundColor="red"
                         m="4"
-                        // borderTopRightRadius="2xl"
+                        borderTopRightRadius="2xl"
                         textAlign="left"
+                        border="1px"
+                        shadow="inner"
+                        borderLeft="gray"
+                        borderRight="gray"
                         borderColor={
                           colors[Math.floor(Math.random() * colors.length)]
                         }
@@ -198,13 +205,13 @@ function Saved() {
                             if (searchTerm.category == category) {
                               return (
                                 <AccordionPanel
-                                  display="inline-flex"
+                                  // display="inline-flex"
                                   width="100%"
                                   borderBottomRightRadius="2xl"
                                   p="2"
                                 >
                                   <Box
-                                    display="flex"
+                                    display="inline-flex"
                                     justifyContent="space-between"
                                     width="100%"
                                     alignItems="center"
