@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import logo from "../images/Brandlytics.png";
+import responsive from "../images/Responsive.jpg";
 import { Link, useHistory } from "react-router-dom";
 import GitHubButton from "react-github-btn";
 import { useAuthStore } from "../stores";
@@ -111,9 +112,9 @@ function LandingPage() {
               </Text>
             </Heading>
             <Text color={"gray.500"}>
-              Snippy is a rich coding snippets app that lets you create your own
-              code snippets, categorize them, and even sync them in the cloud so
-              you can use them anywhere. All that is free!
+              Brandlytics is a tweets based sentimental analysis app that lets
+              you analyze, filter, visualize results from the daily trends. All
+              that is free!
             </Text>
             <Stack
               spacing={{ base: 4, sm: 6 }}
@@ -251,9 +252,9 @@ function LandingPage() {
               <br />
             </Heading>
             <Text color={"gray.500"}>
-              Snippy is a rich coding snippets app that lets you create your own
-              code snippets, categorize them, and even sync them in the cloud so
-              you can use them anywhere. All that is free!
+              Brandlytics ie a tweets based sentimental analysis app that lets
+              filter your results on daily and weekly basis in various
+              visualization for effective analysis!
             </Text>
             <Stack
               spacing={{ base: 4, sm: 6 }}
@@ -311,9 +312,9 @@ function LandingPage() {
               <br />
             </Heading>
             <Text color={"gray.500"}>
-              Snippy is a rich coding snippets app that lets you create your own
-              code snippets, categorize them, and even sync them in the cloud so
-              you can use them anywhere. All that is free!
+              Now, with Brandlytics you dont have to store your favourite topics
+              seperately, we provide you an option to save your search terms and
+              arrange them in categories for future use!
             </Text>
             <Stack
               spacing={{ base: 4, sm: 6 }}
@@ -326,7 +327,7 @@ function LandingPage() {
                 px={6}
                 rightIcon={<ArrowForwardIcon h={4} w={4} color={"gray.500"} />}
                 onClick={() => {
-                  history.push("/login");
+                  history.push("/saved");
                 }}
               >
                 Get Started
@@ -416,9 +417,7 @@ function LandingPage() {
                 align={"center"}
                 w={"100%"}
                 h={"100%"}
-                src={
-                  "https://image.freepik.com/free-vector/digital-device-mockup-set_53876-89367.jpg"
-                }
+                src={responsive}
               />
             </Box>
           </Flex>
@@ -447,9 +446,8 @@ function LandingPage() {
               <br />
             </Heading>
             <Text color={"gray.500"}>
-              Snippy is a rich coding snippets app that lets you create your own
-              code snippets, categorize them, and even sync them in the cloud so
-              you can use them anywhere. All that is free!
+              Brandlytics is Fully Responsive, ready to use on your mobile
+              device as well as desktop!
             </Text>
             <Stack
               spacing={{ base: 4, sm: 6 }}
@@ -462,7 +460,7 @@ function LandingPage() {
                 px={6}
                 rightIcon={<ArrowForwardIcon h={4} w={4} color={"gray.500"} />}
                 onClick={() => {
-                  history.push("/login");
+                  history.push("/search");
                 }}
               >
                 Get Started
