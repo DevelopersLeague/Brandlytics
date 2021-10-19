@@ -11,10 +11,12 @@ import {
 } from "@chakra-ui/icons";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import Search from "./Search";
+import { useAuthStore } from "../stores";
 
 function Sidebar() {
   const history = useHistory();
   const path = history.location.pathname;
+  const store = useAuthStore();
   const isHome = path.includes("home");
   const isSearch = path.includes("search");
   const isSave = path.includes("save");
@@ -80,8 +82,8 @@ function Sidebar() {
             size={"lg"}
             fontWeight={"normal"}
             px={6}
-            onClick={() => {
-              history.push("/saved");
+            onClick={()=>{
+              history.push('/saved')
             }}
             isActive={isSave}
             leftIcon={<StarIcon />}
@@ -101,7 +103,9 @@ function Sidebar() {
             fontWeight={"normal"}
             px={6}
             onClick={() => {
-              history.push("/saved");
+              store.setUser(null);
+              localStorage.removeItem("token");
+              history.push("/login");
             }}
             leftIcon={<UnlockIcon />}
           >

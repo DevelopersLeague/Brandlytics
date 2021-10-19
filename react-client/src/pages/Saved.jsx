@@ -2,6 +2,7 @@ import React from "react";
 import * as datefns from "date-fns";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   FormControl,
   FormLabel,
@@ -40,6 +41,7 @@ import {
   InfoOutlineIcon,
   MinusIcon,
   AddIcon,
+  DeleteIcon,
 } from "@chakra-ui/icons";
 import { client } from "../apiclient";
 import {
@@ -61,6 +63,8 @@ import { useLocation } from "react-router-dom";
 function Saved() {
   const colors = ["steelblue", "violet", "red", "teal", "pink", "purple"];
   const [categories, setCategories] = useState([]);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
   const [Terms, setTerms] = useState([]);
   const [gotCategories, setGotCategories] = useState(false);
   const user = useAuthStore((store) => store.user);
@@ -75,6 +79,16 @@ function Saved() {
     setCategories(categoriesList);
     setTerms(searchTerms);
   };
+
+  const handleDelete = async (id) => {
+    setIsDeleteLoading(true);
+    setDeletingId(id);
+    await client.deleteQuery({ id: id });
+    await helperFunction();
+    setDeletingId(null);
+    setIsDeleteLoading(false);
+  };
+
   useEffect(() => {
     helperFunction();
     setGotCategories(true);
@@ -136,9 +150,12 @@ function Saved() {
                   {categories.map((category) => {
                     return (
                       <Box
-                        display="inline-flex"
+                        // display="inline-flex"
+                        flex="1"
+                        // backgroundColor="red"
                         m="4"
-                        borderTopRightRadius="2xl"
+                        // borderTopRightRadius="2xl"
+                        textAlign="left"
                         borderColor={
                           colors[Math.floor(Math.random() * colors.length)]
                         }
@@ -150,9 +167,10 @@ function Saved() {
                         >
                           <AccordionButton
                             _expanded={{
-                              bg: colors[
-                                Math.floor(Math.random() * colors.length)
-                              ],
+                              // bg: colors[
+                              //   Math.floor(Math.random() * colors.length)
+                              // ],
+                              backgroundColor: "gray.100",
                               borderTopRightRadius: "2xl",
                               color: "white",
                             }}
@@ -164,7 +182,8 @@ function Saved() {
                               mr="4"
                             >
                               <Text
-                                fontSize="2xl"
+                                // fontSize="2xl"
+                                fontSize="xl"
                                 color="gray.900"
                                 textTransform="capitalize"
                                 textShadow="2xl"
@@ -180,28 +199,56 @@ function Saved() {
                               return (
                                 <AccordionPanel
                                   display="inline-flex"
+                                  width="100%"
                                   borderBottomRightRadius="2xl"
                                   p="2"
                                 >
                                   <Box
-                                    display="inline-flex"
+                                    display="flex"
+                                    justifyContent="space-between"
+                                    width="100%"
+                                    alignItems="center"
+                                    flexDirection="row"
                                     borderColor="black"
                                     borderBottomRightRadius="2xl"
                                   >
-                                    <Text
-                                      display="inline-flex"
-                                      as="a"
-                                      href={
+                                    <Link
+                                      to={
                                         "/search?" +
                                         new URLSearchParams([
                                           ["q", searchTerm.content],
                                         ])
                                       }
-                                      fontSize="lg"
-                                      fontFamily="serif"
                                     >
-                                      {searchTerm.content}
-                                    </Text>
+                                      <Text
+                                        display="inline-flex"
+                                        // href={
+                                        //   "/search?" +
+                                        //   new URLSearchParams([
+                                        //     ["q", searchTerm.content],
+                                        //   ])
+                                        // }
+                                        // as="a"
+                                        fontSize="lg"
+                                        // fontFamily="serif"
+                                        ml="4"
+                                        fontFamily="sans-serif"
+                                      >
+                                        {searchTerm.content}
+                                      </Text>
+                                    </Link>
+                                    {isDeleteLoading &&
+                                    deletingId === searchTerm.id ? (
+                                      <Spinner />
+                                    ) : (
+                                      <DeleteIcon
+                                        mr="10"
+                                        cursor="pointer"
+                                        onClick={() => {
+                                          handleDelete(searchTerm.id);
+                                        }}
+                                      />
+                                    )}
                                   </Box>
                                 </AccordionPanel>
                               );

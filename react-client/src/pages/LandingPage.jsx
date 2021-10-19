@@ -119,18 +119,24 @@ function LandingPage() {
               spacing={{ base: 4, sm: 6 }}
               direction={{ base: "column", sm: "row" }}
             >
-              <Button
-                rounded={"full"}
-                size={"lg"}
-                fontWeight={"normal"}
-                px={6}
-                rightIcon={<ArrowForwardIcon h={4} w={4} color={"gray.500"} />}
-                onClick={() => {
-                  history.push("/signup");
-                }}
+              <Link
+                // onClick={() => {
+                //   history.push("/signup");
+                // }}
+                to="/search"
               >
-                Register
-              </Button>
+                <Button
+                  rounded={"full"}
+                  size={"lg"}
+                  fontWeight={"normal"}
+                  px={6}
+                  rightIcon={
+                    <ArrowForwardIcon h={4} w={4} color={"gray.500"} />
+                  }
+                >
+                  Get Started
+                </Button>
+              </Link>
             </Stack>
           </Stack>
           <Flex
