@@ -90,14 +90,22 @@ container.register<ITwitterAPIService>('twitter_api_service', {
 })
 
 // analysis service
-// container.register<IAnalysisService>('analysis_service', {
-//   useClass: AnalysisService
-// })
+if (process.env.USE_MOCK_ANALYSIS_SERVICE === "true") {
+  // mock analysis service
+  loggerInstance.info('using mock analysis service')
+  container.register<IAnalysisService>('analysis_service', {
+    useClass: MockAnalysisService
+  })
+}
+else if (process.env.USE_MOCK_ANALYSIS_SERVICE === "false") {
+  container.register<IAnalysisService>('analysis_service', {
+    useClass: AnalysisService
+  })
 
-// mock analysis service
-container.register<IAnalysisService>('analysis_service', {
-  useClass: MockAnalysisService
-})
+}
+else {
+  throw new Error("invalid value for env var USE_MOCK_ANALYSIS_SERVICE ")
+}
 
 // sentiment service
 container.register<ISentimentService>('sentiment_service', {
