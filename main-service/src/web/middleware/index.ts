@@ -24,9 +24,8 @@ export function reqLoggingMiddleware(
       if (res.statusCode >= 400 && res.statusCode <= 599) {
         color = colorMap['red'];
       }
-      const logStr = `${req.method} ${req.url} ${color}${res.statusCode}${
-        colorMap['white']
-      } ${then - now}ms`;
+      const logStr = `${req.method} ${req.url} ${color}${res.statusCode}${colorMap['white']
+        } ${then - now}ms`;
       logMethod(logStr);
     });
     next();
@@ -69,7 +68,7 @@ export function auth(): Handler {
   return function (req: Request, res: Response, next: NextFunction): void {
     const header = req.headers.authorization;
     if (!header) {
-      res.status(40).json({
+      res.status(401).json({
         code: 401,
         message: 'Authorization token missing',
       });

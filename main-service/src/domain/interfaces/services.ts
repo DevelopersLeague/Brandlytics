@@ -1,4 +1,4 @@
-import { IUserSignupDTO, IUser, IUserUpdateDTO, IUserLoginDTO } from './index';
+import { IUserSignupDTO, IUser, IUserUpdateDTO, IUserLoginDTO, IQueryCreateDTO, IQueryUpdateDTO, IQueryRespDTO } from './index';
 
 export interface IUserService {
   signup: (userCreateDto: IUserSignupDTO) => Promise<string>;
@@ -7,7 +7,16 @@ export interface IUserService {
   updateUser: (id: number, userUpdateDto: IUserUpdateDTO) => Promise<IUser>;
 }
 
-export type ITweet = { id: string; text: string; createdAt: Date; username: string };
+export interface IQueryService {
+  create: (dto: IQueryCreateDTO) => Promise<IQueryRespDTO>;
+  update: (dto: IQueryUpdateDTO) => Promise<IQueryRespDTO>;
+  delete: (id: number) => Promise<IQueryRespDTO>
+  findByUserId: (id: number) => Promise<IQueryRespDTO[]>
+  findById: (id: number) => Promise<IQueryRespDTO>
+  getCategories: (userId: number) => Promise<string[]>
+}
+
+export type ITweet = { id: string; text: string; createdAt: Date; username: string, truncated: boolean };
 
 export interface ITwitterAPIService {
   searchTweets: (
@@ -26,7 +35,7 @@ export type IAnalysedTweet = {
   createdAt: Date;
   username: string;
   sentiment: string;
-  confidence: number;
+  truncated: boolean;
 };
 
 export interface IAnalysisService {

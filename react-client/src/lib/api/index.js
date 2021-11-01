@@ -111,8 +111,8 @@ export class APIClient {
    * @returns {Promise<SentimentReport>}
    */
   async getSentiment(term) {
-    term = encodeURIComponent(term);
-    const params = new URLSearchParams(["term", term]);
+    // term = encodeURIComponent(term);
+    const params = new URLSearchParams([["term", term]]);
     const resp = await fetch(
       `${this._serverBaseUrl}/api/v1/sentiment/week?` + params.toString(),
       {
@@ -123,6 +123,99 @@ export class APIClient {
       }
     );
     const respJson = await resp.json();
+    console.log(respJson)
     return respJson;
   }
+
+  /**
+   * @typedef {Object} query
+   * @property {number} id
+   * @property {string} content
+   * @property {string} category
+   * @property {string} createdAt
+   * @property {string} updatedAt
+   * @property {number} userId
+   */
+  /**
+   * @returns {query[]}
+   */
+  async getQueries() {
+    // const auth = ``
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${this._token}`
+      }
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.queries
+  }
+
+  /**
+   * @param {{content: string, category: string}} opts
+   * @returns {query} created query
+   */
+  async addQuery({ content, category }) {
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${this._token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ content, category })
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.query
+  }
+
+  /**
+   * @param {number} id
+   * @returns {query} deleted query
+   */
+  async deleteQuery({ id }) {
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `Bearer ${this._token}`
+      },
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.query
+  }
+
+  /**
+   * @returns {string[]} queries
+   */
+  async getCategories() {
+    const resp = await fetch(`${this._serverBaseUrl}/api/v1/queries/categories`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${this._token}`
+      },
+    })
+    const body = await resp.json()
+    if (!resp.ok) {
+      throw new Error(body.message)
+    }
+    return body.categories
+  }
+
+  /**
+   * @param {{term:string}} opts
+   */
+  getDownloadUrl({ term }) {
+    const params = new URLSearchParams([["term", term]]);
+    let url =  `${this._serverBaseUrl}/api/v1/sentiment/week/download?${params.toString()}`
+    return url
+  }
+
 }

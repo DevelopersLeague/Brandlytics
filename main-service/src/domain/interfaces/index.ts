@@ -34,18 +34,10 @@ export interface IUser {
 
 export interface IQuery {
   id: number;
-  text: string;
+  content: string;
+  category: string;
   userId: number;
-  categoryId: number;
   isDeleted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface ICategory {
-  id: number;
-  name: string;
-  userId: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -67,10 +59,9 @@ export interface IUserRepository extends IRepository<IUser> {
   findOneByUsername: (username: string) => Promise<IUser | null>;
 }
 
+export type createQueryDto = { content: string, user_id: number, category: string }
+
 export interface IQueryRepository extends IRepository<IQuery> {
   findByUserId: (userid: number) => Promise<IQuery[]>;
-}
-
-export interface ICategoryRepository extends IRepository<ICategory> {
-  findByUserId: (userid: number) => Promise<IQuery[]>;
+  create: (dto: createQueryDto) => Promise<IQuery>
 }

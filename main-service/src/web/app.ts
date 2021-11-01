@@ -41,6 +41,13 @@ export class App {
     this.controllers.forEach((controller) => {
       this.expressApp.use(controller.path, controller.getRouter());
     });
+    // 404 handler
+    this.expressApp.use((req, res) => {
+      res.status(404).json({
+        code: 404,
+        message: "resource not found"
+      })
+    })
 
     // error handlers
     this.expressApp.use(

@@ -7,6 +7,8 @@ import {
   ITwitterAPIService,
   IAnalysisService,
   ISentimentService,
+  IQueryRepository,
+  IQueryService,
 } from '../domain/interfaces';
 import { configServiceInstance } from './configservice';
 import { loggerInstance } from './logger';
@@ -18,10 +20,14 @@ import { UserRepository } from '../database/repositories';
 import { UserService } from '../domain/services';
 import { IBaseController } from '../web/app';
 import { AuthController } from '../web/controllers/AuthController';
+import { QueryController } from '../web/controllers/QueryController';
 import { TwitterAPIService } from '../external/TwitterAPIService';
 import { AnalysisService } from '../external/AnalyseService';
+import { MockAnalysisService } from '../external/mockAnalyseService';
 import { SentimentService } from '../domain/services/SentimentService';
 import { SentimentController } from '../web/controllers/SentimentController';
+import { QueryRepository } from '../database/repositories/QueryRepository';
+import { QueryService } from '../domain/services/QueryService';
 
 // config service
 container.register<IConfigService>('config_service', {
@@ -63,15 +69,43 @@ container.register<IBaseController>('auth_controller', {
   useClass: AuthController,
 });
 
+//query repository
+container.register<IQueryRepository>('query_repository', {
+  useClass: QueryRepository,
+});
+
+//query service
+container.register<IQueryService>('query_service', {
+  useClass: QueryService
+});
+
+//query controller
+container.register<IBaseController>('query_controller', {
+  useClass: QueryController
+});
+
 // twitter api service
 container.register<ITwitterAPIService>('twitter_api_service', {
   useClass: TwitterAPIService,
 })
 
 // analysis service
-container.register<IAnalysisService>('analysis_service', {
-  useClass: AnalysisService
-})
+if (process.env.USE_MOCK_ANALYSIS_SERVICE === "true") {
+  // mock analysis service
+  loggerInstance.info('using mock analysis service')
+  container.register<IAnalysisService>('analysis_service', {
+    useClass: MockAnalysisService
+  })
+}
+else if (process.env.USE_MOCK_ANALYSIS_SERVICE === "false") {
+  container.register<IAnalysisService>('analysis_service', {
+    useClass: AnalysisService
+  })
+
+}
+else {
+  throw new Error("invalid value for env var USE_MOCK_ANALYSIS_SERVICE ")
+}
 
 // sentiment service
 container.register<ISentimentService>('sentiment_service', {

@@ -18,9 +18,31 @@ export interface IUserUpdateDTO {
 }
 
 export interface IUserRespDTO {
+  id: number
   firstname: string;
   lastname: string;
   username: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IQueryRespDTO {
+  id: number,
+  content: string,
+  category: string,
+  userId: number,
+  createdAt: string,
+  updatedAt: string
+}
+
+export interface IQueryCreateDTO {
+  userId: number
+  content: string,
+  category: string
+}
+
+export interface IQueryUpdateDTO {
+  id: number
+  content?: string
+  category?: string
 }
