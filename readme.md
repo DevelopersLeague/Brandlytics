@@ -15,6 +15,10 @@ Traditionally, to know more about product and brand recognition, customer loyalt
 
 <!-- add architechture here -->
 
+## caching
+
+implemented in memory caching to twitter api responses and sentiment analysis server responses to reduce latency. Latency reduced from 10,000ms to 35ms for repeated search term.
+
 ## Tech Stack 
 
  - [React.js](https://reactjs.org/)
